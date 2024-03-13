@@ -8,20 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		A2EA51982BA1FF13006133AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51972BA1FF13006133AD /* AppDelegate.swift */; };
-		A2EA519C2BA1FF13006133AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA519B2BA1FF13006133AD /* ViewController.swift */; };
+		A2EA519C2BA1FF13006133AD /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */; };
 		A2EA51A22BA1FF13006133AD /* QuizTestingProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */; };
 		A2EA51A42BA1FF13006133AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2EA51A32BA1FF13006133AD /* Assets.xcassets */; };
 		A2EA51A72BA1FF13006133AD /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A2EA51A62BA1FF13006133AD /* Base */; };
+		A2EA51B02BA20B0E006133AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51AF2BA20B0E006133AD /* SnapKit */; };
+		A2EA51B22BA20F42006133AD /* SetColorByCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B12BA20F42006133AD /* SetColorByCode.swift */; };
+		A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B32BA21121006133AD /* Coordinator.swift */; };
+		A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B52BA23C4C006133AD /* QuizScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A2EA51942BA1FF13006133AD /* QuizTestingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuizTestingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2EA51972BA1FF13006133AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		A2EA519B2BA1FF13006133AD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
 		A2EA51A12BA1FF13006133AD /* QuizTestingProject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = QuizTestingProject.xcdatamodel; sourceTree = "<group>"; };
 		A2EA51A32BA1FF13006133AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2EA51A62BA1FF13006133AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A2EA51A82BA1FF13006133AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A2EA51B12BA20F42006133AD /* SetColorByCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetColorByCode.swift; sourceTree = "<group>"; };
+		A2EA51B32BA21121006133AD /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		A2EA51B52BA23C4C006133AD /* QuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2EA51B02BA20B0E006133AD /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -38,6 +46,7 @@
 		A2EA518B2BA1FF12006133AD = {
 			isa = PBXGroup;
 			children = (
+				A2EA51B52BA23C4C006133AD /* QuizScreen.swift */,
 				A2EA51962BA1FF13006133AD /* QuizTestingProject */,
 				A2EA51952BA1FF13006133AD /* Products */,
 			);
@@ -55,11 +64,13 @@
 			isa = PBXGroup;
 			children = (
 				A2EA51972BA1FF13006133AD /* AppDelegate.swift */,
-				A2EA519B2BA1FF13006133AD /* ViewController.swift */,
+				A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */,
+				A2EA51B32BA21121006133AD /* Coordinator.swift */,
 				A2EA51A32BA1FF13006133AD /* Assets.xcassets */,
 				A2EA51A52BA1FF13006133AD /* LaunchScreen.storyboard */,
 				A2EA51A82BA1FF13006133AD /* Info.plist */,
 				A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */,
+				A2EA51B12BA20F42006133AD /* SetColorByCode.swift */,
 			);
 			path = QuizTestingProject;
 			sourceTree = "<group>";
@@ -80,6 +91,9 @@
 			dependencies = (
 			);
 			name = QuizTestingProject;
+			packageProductDependencies = (
+				A2EA51AF2BA20B0E006133AD /* SnapKit */,
+			);
 			productName = QuizTestingProject;
 			productReference = A2EA51942BA1FF13006133AD /* QuizTestingProject.app */;
 			productType = "com.apple.product-type.application";
@@ -108,6 +122,9 @@
 				Base,
 			);
 			mainGroup = A2EA518B2BA1FF12006133AD;
+			packageReferences = (
+				A2EA51AE2BA20B0E006133AD /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = A2EA51952BA1FF13006133AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -134,7 +151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2EA519C2BA1FF13006133AD /* ViewController.swift in Sources */,
+				A2EA51B22BA20F42006133AD /* SetColorByCode.swift in Sources */,
+				A2EA519C2BA1FF13006133AD /* WelcomeScreen.swift in Sources */,
+				A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */,
+				A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */,
 				A2EA51A22BA1FF13006133AD /* QuizTestingProject.xcdatamodeld in Sources */,
 				A2EA51982BA1FF13006133AD /* AppDelegate.swift in Sources */,
 			);
@@ -285,7 +305,7 @@
 				INFOPLIST_FILE = QuizTestingProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -317,7 +337,7 @@
 				INFOPLIST_FILE = QuizTestingProject/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -359,6 +379,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A2EA51AE2BA20B0E006133AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A2EA51AF2BA20B0E006133AD /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2EA51AE2BA20B0E006133AD /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */ = {
