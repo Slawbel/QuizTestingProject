@@ -12,14 +12,10 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
-    func
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         
-        let viewController = ViewController()
-        let nav = UINavigationController(rootViewController: viewController)
+        let nav = UINavigationController(rootViewController: WelcomeScreen())
         
         //nav.setupNavigationBarTextColor()
         
