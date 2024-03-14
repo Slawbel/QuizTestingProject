@@ -28,6 +28,10 @@ class WelcomeScreen: UIViewController {
         editButton.alpha = 0.3
         editButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
         editButton.setTitleColor(.white, for: .normal)
+        editButton.addAction(UIAction {_ in
+            let newQuestionsScreen = NewQuestionsScreen()
+            Coordinator.openAnotherScreen(from: self, to: newQuestionsScreen)
+        }, for: .primaryActionTriggered)
         
         
         view.addSubview(playButton)

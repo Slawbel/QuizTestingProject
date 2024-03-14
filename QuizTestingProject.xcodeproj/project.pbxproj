@@ -12,12 +12,14 @@
 		A2EA51A22BA1FF13006133AD /* QuizTestingProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */; };
 		A2EA51A42BA1FF13006133AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2EA51A32BA1FF13006133AD /* Assets.xcassets */; };
 		A2EA51A72BA1FF13006133AD /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A2EA51A62BA1FF13006133AD /* Base */; };
-		A2EA51B02BA20B0E006133AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51AF2BA20B0E006133AD /* SnapKit */; };
 		A2EA51B22BA20F42006133AD /* SetColorByCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B12BA20F42006133AD /* SetColorByCode.swift */; };
 		A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B32BA21121006133AD /* Coordinator.swift */; };
 		A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B52BA23C4C006133AD /* QuizScreen.swift */; };
-		A2EA51BC2BA26947006133AD /* AnswersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51BB2BA26947006133AD /* AnswersCell.swift */; };
 		A2EA51BE2BA297F7006133AD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51BD2BA297F6006133AD /* Model.swift */; };
+		A2EA51C12BA33381006133AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51C02BA33381006133AD /* SnapKit */; };
+		A2EA51C32BA346A7006133AD /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C22BA346A7006133AD /* Cell.swift */; };
+		A2EA51C72BA364D2006133AD /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C62BA364D2006133AD /* PaddingLabel.swift */; };
+		A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,8 +33,10 @@
 		A2EA51B12BA20F42006133AD /* SetColorByCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetColorByCode.swift; sourceTree = "<group>"; };
 		A2EA51B32BA21121006133AD /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		A2EA51B52BA23C4C006133AD /* QuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizScreen.swift; sourceTree = "<group>"; };
-		A2EA51BB2BA26947006133AD /* AnswersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswersCell.swift; sourceTree = "<group>"; };
 		A2EA51BD2BA297F6006133AD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		A2EA51C22BA346A7006133AD /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		A2EA51C62BA364D2006133AD /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewQuestionsScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -40,7 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2EA51B02BA20B0E006133AD /* SnapKit in Frameworks */,
+				A2EA51C12BA33381006133AD /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,17 +70,19 @@
 		A2EA51962BA1FF13006133AD /* QuizTestingProject */ = {
 			isa = PBXGroup;
 			children = (
-				A2EA51B52BA23C4C006133AD /* QuizScreen.swift */,
-				A2EA51BB2BA26947006133AD /* AnswersCell.swift */,
-				A2EA51972BA1FF13006133AD /* AppDelegate.swift */,
-				A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */,
-				A2EA51B32BA21121006133AD /* Coordinator.swift */,
-				A2EA51A32BA1FF13006133AD /* Assets.xcassets */,
 				A2EA51A52BA1FF13006133AD /* LaunchScreen.storyboard */,
+				A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */,
+				A2EA51B52BA23C4C006133AD /* QuizScreen.swift */,
+				A2EA51B32BA21121006133AD /* Coordinator.swift */,
+				A2EA51C22BA346A7006133AD /* Cell.swift */,
+				A2EA51B12BA20F42006133AD /* SetColorByCode.swift */,
+				A2EA51C62BA364D2006133AD /* PaddingLabel.swift */,
+				A2EA51972BA1FF13006133AD /* AppDelegate.swift */,
+				A2EA51A32BA1FF13006133AD /* Assets.xcassets */,
 				A2EA51A82BA1FF13006133AD /* Info.plist */,
 				A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */,
-				A2EA51B12BA20F42006133AD /* SetColorByCode.swift */,
 				A2EA51BD2BA297F6006133AD /* Model.swift */,
+				A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */,
 			);
 			path = QuizTestingProject;
 			sourceTree = "<group>";
@@ -98,7 +104,7 @@
 			);
 			name = QuizTestingProject;
 			packageProductDependencies = (
-				A2EA51AF2BA20B0E006133AD /* SnapKit */,
+				A2EA51C02BA33381006133AD /* SnapKit */,
 			);
 			productName = QuizTestingProject;
 			productReference = A2EA51942BA1FF13006133AD /* QuizTestingProject.app */;
@@ -129,7 +135,7 @@
 			);
 			mainGroup = A2EA518B2BA1FF12006133AD;
 			packageReferences = (
-				A2EA51AE2BA20B0E006133AD /* XCRemoteSwiftPackageReference "SnapKit" */,
+				A2EA51BF2BA33381006133AD /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = A2EA51952BA1FF13006133AD /* Products */;
 			projectDirPath = "";
@@ -157,13 +163,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2EA51BC2BA26947006133AD /* AnswersCell.swift in Sources */,
 				A2EA51B22BA20F42006133AD /* SetColorByCode.swift in Sources */,
 				A2EA519C2BA1FF13006133AD /* WelcomeScreen.swift in Sources */,
 				A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */,
 				A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */,
 				A2EA51A22BA1FF13006133AD /* QuizTestingProject.xcdatamodeld in Sources */,
+				A2EA51C32BA346A7006133AD /* Cell.swift in Sources */,
+				A2EA51C72BA364D2006133AD /* PaddingLabel.swift in Sources */,
 				A2EA51982BA1FF13006133AD /* AppDelegate.swift in Sources */,
+				A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */,
 				A2EA51BE2BA297F7006133AD /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -389,7 +397,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A2EA51AE2BA20B0E006133AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		A2EA51BF2BA33381006133AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
 			requirement = {
@@ -400,9 +408,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A2EA51AF2BA20B0E006133AD /* SnapKit */ = {
+		A2EA51C02BA33381006133AD /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A2EA51AE2BA20B0E006133AD /* XCRemoteSwiftPackageReference "SnapKit" */;
+			package = A2EA51BF2BA33381006133AD /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -1,10 +1,11 @@
 import UIKit
 import SnapKit
 
-class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
+class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate {
+    
     private let counterLabel = UILabel()
-    private let questionLabel = PaddingLabel()
+    private let questionLabel = UILabel()
+    private let newQuestionTextView = UITextView()
     
     private var collectionView: UICollectionView!
     
@@ -27,8 +28,18 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         questionLabel.alpha = 0.3
         questionLabel.layer.cornerRadius = 50
         questionLabel.clipsToBounds = true
-        questionLabel.edgeInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-
+        
+        newQuestionTextView.keyboardAppearance = .dark
+        newQuestionTextView.textAlignment = .center
+        newQuestionTextView.backgroundColor = .clear
+        newQuestionTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        newQuestionTextView.font = UIFont.systemFont(ofSize: 16)
+        newQuestionTextView.layer.cornerRadius = 10
+        newQuestionTextView.layer.borderWidth = 0
+        newQuestionTextView.delegate = self
+        newQuestionTextView.text = "Enter your question here"
+        newQuestionTextView.textColor = UIColor.lightGray
+        
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: 300, height: 70)
@@ -46,6 +57,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         
         view.addSubview(counterLabel)
         view.addSubview(questionLabel)
+        view.addSubview(newQuestionTextView)
         view.addSubview(collectionView)
         
         counterLabel.snp.makeConstraints { make in
@@ -59,6 +71,13 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
             make.top.equalTo(view).inset(180)
             make.height.equalTo(250)
             make.width.equalTo(340)
+        }
+        
+        newQuestionTextView.snp.makeConstraints { make in
+            make.centerX.equalTo(questionLabel)
+            make.top.equalTo(questionLabel.snp.top).offset(10)
+            make.width.equalTo(320) // Adjust width as needed
+            make.height.equalTo(230) // Adjust height as needed
         }
         
         collectionView.snp.makeConstraints { make in
@@ -90,7 +109,17 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         return CGSize(width: width, height: height)
     }
     
+    
 
 }
 
-
+extension NewQuestionsScreen {
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray && textView.text == "Enter your question here" {
+            textView.text = nil
+            textView.textColor = .white
+        }
+    }
+    
+}
