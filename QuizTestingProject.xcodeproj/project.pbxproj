@@ -16,6 +16,7 @@
 		A2EA51B22BA20F42006133AD /* SetColorByCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B12BA20F42006133AD /* SetColorByCode.swift */; };
 		A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B32BA21121006133AD /* Coordinator.swift */; };
 		A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B52BA23C4C006133AD /* QuizScreen.swift */; };
+		A2EA51BC2BA26947006133AD /* AnswersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51BB2BA26947006133AD /* AnswersCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		A2EA51B12BA20F42006133AD /* SetColorByCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetColorByCode.swift; sourceTree = "<group>"; };
 		A2EA51B32BA21121006133AD /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		A2EA51B52BA23C4C006133AD /* QuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizScreen.swift; sourceTree = "<group>"; };
+		A2EA51BB2BA26947006133AD /* AnswersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswersCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,7 +48,6 @@
 		A2EA518B2BA1FF12006133AD = {
 			isa = PBXGroup;
 			children = (
-				A2EA51B52BA23C4C006133AD /* QuizScreen.swift */,
 				A2EA51962BA1FF13006133AD /* QuizTestingProject */,
 				A2EA51952BA1FF13006133AD /* Products */,
 			);
@@ -63,6 +64,8 @@
 		A2EA51962BA1FF13006133AD /* QuizTestingProject */ = {
 			isa = PBXGroup;
 			children = (
+				A2EA51B52BA23C4C006133AD /* QuizScreen.swift */,
+				A2EA51BB2BA26947006133AD /* AnswersCell.swift */,
 				A2EA51972BA1FF13006133AD /* AppDelegate.swift */,
 				A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */,
 				A2EA51B32BA21121006133AD /* Coordinator.swift */,
@@ -151,6 +154,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2EA51BC2BA26947006133AD /* AnswersCell.swift in Sources */,
 				A2EA51B22BA20F42006133AD /* SetColorByCode.swift in Sources */,
 				A2EA519C2BA1FF13006133AD /* WelcomeScreen.swift in Sources */,
 				A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */,

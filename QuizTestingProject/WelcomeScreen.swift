@@ -3,26 +3,31 @@ import SnapKit
 
 class WelcomeScreen: UIViewController {
     
-    let playButton = UIButton()
-    let editButton = UIButton()
+    private let playButton = UIButton()
+    private let editButton = UIButton()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = SetColorByCode.hexStringToUIColor(hex: "#000000")
+        let colorsHexWelcScreen = ["#4D1E5F", "#ED62B1", "#F9805D", "#FF8F34"]
+        SetColorByCode.applyGradientBackground(to: view, colorsHex: colorsHexWelcScreen)
+
+        //view.backgroundColor = SetColorByCode.hexStringToUIColor(hex: "#000000")
         
         playButton.layer.cornerRadius = 100
-        playButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"#EBF400")
-        playButton.setTitleColor(.black, for: .normal)
-        playButton.addAction(UIAction {_ in 
+        playButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
+        playButton.alpha = 0.3
+        playButton.setTitleColor(.white, for: .normal)
+        playButton.addAction(UIAction {_ in
             let quizScreen = QuizScreen()
             Coordinator.openAnotherScreen(from: self, to: quizScreen)
         }, for: .primaryActionTriggered)
         
         
         editButton.layer.cornerRadius = 25
-        editButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"#EBF400")
-        editButton.setTitleColor(.black, for: .normal)
+        editButton.alpha = 0.3
+        editButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
+        editButton.setTitleColor(.white, for: .normal)
         
         
         view.addSubview(playButton)

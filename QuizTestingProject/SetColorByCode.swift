@@ -23,4 +23,22 @@ struct SetColorByCode {
             alpha: CGFloat(1.0)
         )
     }
+    
+    static func applyGradientBackground(to view: UIView, colorsHex: [String]) {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 1, y: 0)
+        gradientLayer.endPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.locations = [0.0, 1.0]
+
+        // Convert hex color codes to UIColors
+        let colors = colorsHex.map { hexStringToUIColor(hex: $0) }
+
+        // Convert UIColors to CGColor
+        let cgColors = colors.map { $0.cgColor }
+
+        gradientLayer.colors = cgColors
+        gradientLayer.frame = view.bounds
+        view.backgroundColor = nil
+        view.layer.insertSublayer(gradientLayer, at: 0)
+    }
 }
