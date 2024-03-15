@@ -21,6 +21,7 @@
 		A2EA51C72BA364D2006133AD /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C62BA364D2006133AD /* PaddingLabel.swift */; };
 		A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */; };
 		A2EA51CF2BA3C538006133AD /* CellForNewQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51CE2BA3C538006133AD /* CellForNewQuestions.swift */; };
+		A2EA51D42BA4AE02006133AD /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51D32BA4AE02006133AD /* IQKeyboardManagerSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +48,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2EA51C12BA33381006133AD /* SnapKit in Frameworks */,
+				A2EA51D42BA4AE02006133AD /* IQKeyboardManagerSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +110,7 @@
 			name = QuizTestingProject;
 			packageProductDependencies = (
 				A2EA51C02BA33381006133AD /* SnapKit */,
+				A2EA51D32BA4AE02006133AD /* IQKeyboardManagerSwift */,
 			);
 			productName = QuizTestingProject;
 			productReference = A2EA51942BA1FF13006133AD /* QuizTestingProject.app */;
@@ -139,6 +142,7 @@
 			mainGroup = A2EA518B2BA1FF12006133AD;
 			packageReferences = (
 				A2EA51BF2BA33381006133AD /* XCRemoteSwiftPackageReference "SnapKit" */,
+				A2EA51D22BA4AE02006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			productRefGroup = A2EA51952BA1FF13006133AD /* Products */;
 			projectDirPath = "";
@@ -409,6 +413,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		A2EA51D22BA4AE02006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -416,6 +428,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A2EA51BF2BA33381006133AD /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		A2EA51D32BA4AE02006133AD /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2EA51D22BA4AE02006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 
