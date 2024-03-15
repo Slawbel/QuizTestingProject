@@ -52,13 +52,20 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         collectionView.delegate = self
         collectionView.backgroundColor = .white
         collectionView.backgroundColor = .clear
+        collectionView.isScrollEnabled = false
         
-        collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(CellForNewQuestions.self, forCellWithReuseIdentifier: "CellForNewQuestions")
+        
+        
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
         view.addSubview(counterLabel)
         view.addSubview(questionLabel)
         view.addSubview(newQuestionTextView)
         view.addSubview(collectionView)
+        
         
         counterLabel.snp.makeConstraints { make in
             make.centerX.equalTo(view)
@@ -93,7 +100,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CellForNewQuestions", for: indexPath) as! CellForNewQuestions
         
         cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         cell.layer.cornerRadius = 35
@@ -108,13 +115,9 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         let height: CGFloat = 70 // Keep the height constant
         return CGSize(width: width, height: height)
     }
-    
-    
-
 }
 
 extension NewQuestionsScreen {
-    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray && textView.text == "Enter your question here" {
             textView.text = nil
@@ -122,4 +125,26 @@ extension NewQuestionsScreen {
         }
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        self.view.endEditing(true)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+            collectionView.contentInset = contentInsets
+            collectionView.scrollIndicatorInsets = contentInsets
+        }
+    }
+        
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        collectionView.contentInset = .zero
+        collectionView.scrollIndicatorInsets = .zero
+    }
+    
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true) // Dismiss the keyboard
+    }
 }

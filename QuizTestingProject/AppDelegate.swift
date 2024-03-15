@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  QuizTestingProject
-//
-//  Created by Viacheslav Belov on 13.03.2024.
-//
-
 import UIKit
 import CoreData
 
