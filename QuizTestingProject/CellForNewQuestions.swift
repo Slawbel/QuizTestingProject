@@ -5,7 +5,7 @@ import SnapKit
 
 class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
     
-    let answerNum = UILabel()
+    let answerNum = UIButton()
     let answerTextView = UITextView()
     
     weak var delegate: CellTextDelegate?
@@ -13,11 +13,12 @@ class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        answerNum.textAlignment = .center
-        answerNum.backgroundColor = .white
-        answerNum.textColor = .black
+        answerNum.backgroundColor = .red
+        answerNum.tintColor = .black
         answerNum.layer.cornerRadius = 25
-        answerNum.clipsToBounds = true
+        answerNum.titleLabel?.textAlignment = .center
+        answerNum.setTitleColor(.black, for: .normal)
+        
         
         answerTextView.keyboardAppearance = .dark
         answerTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)

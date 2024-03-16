@@ -1,4 +1,5 @@
 import UIKit
+import CoreData
 import SnapKit
 
 protocol CellTextDelegate: AnyObject {
@@ -17,7 +18,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     
     var question: String = ""
     var answers: [String] = []
-    var correctAnswerNum: UInt8 = 0
+    var correctAnswerNum: [UInt8] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +49,10 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
                 }
             }
             self.question = self.newQuestionTextView.text
+            self.createData()
             print("Saved questionL \(self.question)")
             print("Saved answers: \(self.answers)")
+            print("Correct answers: \(self.correctAnswerNum)")
         }, for: .touchUpInside)
         
         counterLabel.alpha = 0.3
@@ -153,10 +156,14 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
 
         cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         cell.layer.cornerRadius = 35
-        
-        cell.answerNum.text = "\(indexPath.row + 1)."
+        cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
         cell.answerTextView.text = "Enter option answer here"
-        //cell.answerTextView.delegate = cell
+        
+        cell.answerNum.addAction(UIAction { _ in
+            cell.answerNum.backgroundColor = .green
+            self.correctAnswerNum.append(UInt8(indexPath.row + 1))
+        }, for: .touchUpInside)
+
         cell.delegate = self
         
         return cell
@@ -194,8 +201,26 @@ extension NewQuestionsScreen {
         self.answers.append(text)
     }
     
-    /*func saveNewQuestion() {
-        newQuestion = Quiz(question: <#T##String#>, answers: <#T##[String]#>, correctAnswerNum: <#T##UInt8#>)
-    }*/
+    func saveNewQuestion() {
+        newQuestion = Quiz(question: question, answers: answers, correctAnswerNum: correctAnswerNum)
+    }
+}
+
+extension NewQuestionsScreen {
+    func createData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let entity = NSEntityDescription.entity(forEntityName: "QuizQuestion", in: managedContext)
+        let currency = NSManagedObject(entity: entity!, insertInto: managedContext)
+        currency.setValue(newQuestion, forKey: "quizQuestionAccModel")
+        
+        do {
+            try managedContext.save()
+            print("Saving was done")
+        } catch {
+            print("Failed saving")
+        }
+    }
 }
 

@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import CoreData
 
 class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -7,6 +8,12 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     private let questionLabel = PaddingLabel()
     private var collectionView: UICollectionView!
     private let backButton = UIButton()
+    private let finishButton = UIButton()
+    
+    private var newQuestion: Quiz?
+    
+    private var answers: [String] = []
+    private var correctAnswer: [UInt8] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +29,10 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
             Coordinator.closeAnotherScreen(from: self)
         }, for: .touchUpInside)
         
-        
+        finishButton.alpha = 0.3
+        finishButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
+        finishButton.layer.cornerRadius = 20
+        finishButton.setTitle("Finish", for: .normal)
         
         counterLabel.alpha = 0.3
         counterLabel.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
@@ -54,7 +64,10 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         
         collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
         
+        returnData()
+        
         view.addSubview(backButton)
+        view.addSubview(finishButton)
         view.addSubview(counterLabel)
         view.addSubview(questionLabel)
         view.addSubview(collectionView)
@@ -63,6 +76,13 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
             make.top.equalTo(view).inset(60)
             make.leading.equalTo(view).inset(20)
             make.width.equalTo(70)
+            make.height.equalTo(40)
+        }
+        
+        finishButton.snp.makeConstraints { make in
+            make.top.equalTo(view).inset(60)
+            make.trailing.equalTo(view).inset(20)
+            make.width.equalTo(80)
             make.height.equalTo(40)
         }
         
@@ -109,6 +129,35 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         return CGSize(width: width, height: height)
     }
     
+    func returnData() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "QuizQuestion")
+        request.fetchLimit = 1
+ 
+        request.returnsObjectsAsFaults = false
+        do {
+            let result = try managedContext.fetch(request)
+            if let data = result.first as? NSManagedObject {
+                if let quizData = data.value(forKey: "quizQuestionAccModel") as? Quiz {
+                    self.newQuestion = quizData
+                }
+            }
+            print(newQuestion ?? "")
+        } catch {
+            print("Failed returning")
+        }
+    }
+
+    func setQuestionAndAnswersFromCoreData(instance: Quiz) {
+        self.questionLabel.text = instance.question
+        self.answers = instance.answers
+        self.correctAnswer = instance.correctAnswerNum
+        print("QuestionLabel: \(self.questionLabel.text ?? "")")
+        print("Answers: \(self.answers)")
+        print("CorrectAnswer: \(self.correctAnswer)")
+    }
 
 }
 
