@@ -5,14 +5,24 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
 
     private let counterLabel = UILabel()
     private let questionLabel = PaddingLabel()
-    
     private var collectionView: UICollectionView!
+    private let backButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let colorsHexQuizScreen = ["#4D1E5F", "#ED62B1", "#F9805D", "#FF8F34"]
         SetColorByCode.applyGradientBackground(to: view, colorsHex: colorsHexQuizScreen)
+        
+        backButton.alpha = 0.3
+        backButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
+        backButton.layer.cornerRadius = 20
+        backButton.setTitle("Exit", for: .normal)
+        backButton.addAction(UIAction { _ in
+            Coordinator.closeAnotherScreen(from: self)
+        }, for: .touchUpInside)
+        
+        
         
         counterLabel.alpha = 0.3
         counterLabel.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
@@ -44,26 +54,35 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         
         collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
         
+        view.addSubview(backButton)
         view.addSubview(counterLabel)
         view.addSubview(questionLabel)
         view.addSubview(collectionView)
         
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view).inset(60)
+            make.leading.equalTo(view).inset(20)
+            make.width.equalTo(70)
+            make.height.equalTo(40)
+        }
+        
         counterLabel.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(100)
-            make.width.height.equalTo(60)
+            make.top.equalTo(view).inset(130)
+            make.height.equalTo(60)
+            make.width.equalTo(120)
         }
         
         questionLabel.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(180)
+            make.top.equalTo(view).inset(210)
             make.height.equalTo(250)
             make.width.equalTo(340)
         }
         
         collectionView.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(450)
+            make.top.equalTo(view).inset(480)
             make.width.height.equalTo(350)
         }
         

@@ -8,14 +8,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
-        
-        let nav = UINavigationController(rootViewController: WelcomeScreen())
-        
-        nav.setupNavigationBarTextColor()
+        window?.rootViewController = UINavigationController(rootViewController: WelcomeScreen())
         
         IQKeyboardManager.shared.enable = true
-
-        window?.rootViewController = nav
         window?.makeKeyAndVisible()
         
         return true

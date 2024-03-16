@@ -2,10 +2,13 @@ import UIKit
 import SnapKit
 
 
+
 class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
     
     let answerNum = UILabel()
     let answerTextView = UITextView()
+    
+    weak var delegate: CellTextDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,6 +55,12 @@ class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
         if textView.textColor == UIColor.lightGray && textView.text == "Enter option answer here" {
             textView.text = nil
             textView.textColor = .white
+        }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if let text = textView.text {
+            self.delegate?.cellDidTapText(text)
         }
     }
 }

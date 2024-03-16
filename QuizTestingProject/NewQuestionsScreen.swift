@@ -1,19 +1,56 @@
 import UIKit
 import SnapKit
 
-class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate {
-    
+protocol CellTextDelegate: AnyObject {
+    func cellDidTapText(_ text: String)
+}
+
+class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate, CellTextDelegate {
     private let counterLabel = UILabel()
     private let questionLabel = UILabel()
     private let newQuestionTextView = UITextView()
-    
     private var collectionView: UICollectionView!
+    private let backButton = UIButton()
+    private let saveButton = UIButton()
+    
+    var newQuestion: Quiz?
+    
+    var question: String = ""
+    var answers: [String] = []
+    var correctAnswerNum: UInt8 = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         let colorsHexQuizScreen = ["#4D1E5F", "#ED62B1", "#F9805D", "#FF8F34"]
         SetColorByCode.applyGradientBackground(to: view, colorsHex: colorsHexQuizScreen)
+        
+        backButton.alpha = 0.3
+        backButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
+        backButton.layer.cornerRadius = 20
+        backButton.setTitle("Exit", for: .normal)
+        backButton.addAction(UIAction { _ in
+            Coordinator.closeAnotherScreen(from: self)
+        }, for: .touchUpInside)
+        
+        saveButton.alpha = 0.3
+        saveButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
+        saveButton.layer.cornerRadius = 20
+        saveButton.setTitle("Save", for: .normal)
+        saveButton.addAction(UIAction {_ in 
+            self.answers.removeAll()
+            self.question.removeAll()
+            for cell in self.collectionView.visibleCells {
+                if let cellForQuestion = cell as? CellForNewQuestions, let text = cellForQuestion.answerTextView.text {
+                    if !text.isEmpty {
+                        self.answers.append(text)
+                    }
+                }
+            }
+            self.question = self.newQuestionTextView.text
+            print("Saved questionL \(self.question)")
+            print("Saved answers: \(self.answers)")
+        }, for: .touchUpInside)
         
         counterLabel.alpha = 0.3
         counterLabel.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
@@ -36,10 +73,10 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         newQuestionTextView.font = UIFont.systemFont(ofSize: 16)
         newQuestionTextView.layer.cornerRadius = 10
         newQuestionTextView.layer.borderWidth = 0
-        newQuestionTextView.delegate = self
         newQuestionTextView.text = "Enter your question here"
         newQuestionTextView.textColor = UIColor.lightGray
-        
+        newQuestionTextView.delegate = self
+
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.itemSize = CGSize(width: 300, height: 70)
@@ -56,24 +93,38 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         
         collectionView.register(CellForNewQuestions.self, forCellWithReuseIdentifier: "CellForNewQuestions")
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveTapped))
-        self.navigationItem.rightBarButtonItem?.isEnabled = false
-        
+        view.addSubview(backButton)
+        view.addSubview(saveButton)
         view.addSubview(counterLabel)
         view.addSubview(questionLabel)
         view.addSubview(newQuestionTextView)
         view.addSubview(collectionView)
         
         
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view).inset(60)
+            make.leading.equalTo(view).inset(20)
+            make.width.equalTo(70)
+            make.height.equalTo(40)
+        }
+        
+        saveButton.snp.makeConstraints { make in
+            make.top.equalTo(view).inset(60)
+            make.trailing.equalTo(view).inset(20)
+            make.width.equalTo(70)
+            make.height.equalTo(40)
+        }
+        
         counterLabel.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(100)
-            make.width.height.equalTo(60)
+            make.top.equalTo(view).inset(130)
+            make.height.equalTo(60)
+            make.width.equalTo(120)
         }
         
         questionLabel.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(180)
+            make.top.equalTo(view).inset(210)
             make.height.equalTo(250)
             make.width.equalTo(340)
         }
@@ -87,7 +138,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         
         collectionView.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(450)
+            make.top.equalTo(view).inset(480)
             make.width.height.equalTo(350)
         }
         
@@ -105,7 +156,8 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         
         cell.answerNum.text = "\(indexPath.row + 1)."
         cell.answerTextView.text = "Enter option answer here"
-        cell.answerTextView.delegate = cell // Set the delegate
+        //cell.answerTextView.delegate = cell
+        cell.delegate = self
         
         return cell
     }
@@ -123,7 +175,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
 
 extension NewQuestionsScreen {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray && (textView.text == "Enter your question here" || textView.text == "Enter option answer here") {
+        if textView.textColor == UIColor.lightGray && textView.text == "Enter your question here" {
             textView.text = nil
             textView.textColor = .white
         }
@@ -138,15 +190,12 @@ extension NewQuestionsScreen {
         view.endEditing(true)
     }
 
-    func textViewDidChange(_ textView: UITextView) {
-        var isTextViewEmpty = true
-        for cell in collectionView.visibleCells {
-            if let cellForQuestion = cell as? CellForNewQuestions, let text = cellForQuestion.answerTextView.text, !text.isEmpty {
-                isTextViewEmpty = false
-                break
-            }
-        }
-        self.navigationItem.rightBarButtonItem?.isEnabled = !isTextViewEmpty
+    func cellDidTapText(_ text: String) {
+        self.answers.append(text)
     }
+    
+    /*func saveNewQuestion() {
+        newQuestion = Quiz(question: <#T##String#>, answers: <#T##[String]#>, correctAnswerNum: <#T##UInt8#>)
+    }*/
 }
 
