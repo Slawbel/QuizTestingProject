@@ -51,7 +51,13 @@ class WelcomeScreen: UIViewController {
         }
         
     }
+}
 
-
+extension UINavigationController {
+    func setupNavigationBarTextColor() {
+        self.navigationBar.tintColor = .white
+        self.navigationBar.backgroundColor = .black
+        self.navigationBar.isTranslucent = false
+    }
 }
 

@@ -11,10 +11,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let nav = UINavigationController(rootViewController: WelcomeScreen())
         
-        //nav.setupNavigationBarTextColor()
+        nav.setupNavigationBarTextColor()
         
         IQKeyboardManager.shared.enable = true
-        
+
         window?.rootViewController = nav
         window?.makeKeyAndVisible()
         

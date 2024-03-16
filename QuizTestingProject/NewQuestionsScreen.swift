@@ -56,10 +56,8 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         
         collectionView.register(CellForNewQuestions.self, forCellWithReuseIdentifier: "CellForNewQuestions")
         
-        
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveTapped))
+        self.navigationItem.rightBarButtonItem?.isEnabled = false
         
         view.addSubview(counterLabel)
         view.addSubview(questionLabel)
@@ -101,25 +99,31 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CellForNewQuestions", for: indexPath) as! CellForNewQuestions
-        
+
         cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         cell.layer.cornerRadius = 35
         
         cell.answerNum.text = "\(indexPath.row + 1)."
+        cell.answerTextView.text = "Enter option answer here"
+        cell.answerTextView.delegate = cell // Set the delegate
         
         return cell
     }
+
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = 350 // Adjust the divisor and subtracted value as needed
         let height: CGFloat = 70 // Keep the height constant
         return CGSize(width: width, height: height)
     }
+    
+    @objc private func saveTapped() {
+    }
 }
 
 extension NewQuestionsScreen {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray && textView.text == "Enter your question here" {
+        if textView.textColor == UIColor.lightGray && (textView.text == "Enter your question here" || textView.text == "Enter option answer here") {
             textView.text = nil
             textView.textColor = .white
         }
@@ -130,21 +134,19 @@ extension NewQuestionsScreen {
         self.view.endEditing(true)
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            let contentInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-            collectionView.contentInset = contentInsets
-            collectionView.scrollIndicatorInsets = contentInsets
-        }
-    }
-        
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        collectionView.contentInset = .zero
-        collectionView.scrollIndicatorInsets = .zero
-    }
-    
-    
     @objc func dismissKeyboard() {
-        view.endEditing(true) // Dismiss the keyboard
+        view.endEditing(true)
+    }
+
+    func textViewDidChange(_ textView: UITextView) {
+        var isTextViewEmpty = true
+        for cell in collectionView.visibleCells {
+            if let cellForQuestion = cell as? CellForNewQuestions, let text = cellForQuestion.answerTextView.text, !text.isEmpty {
+                isTextViewEmpty = false
+                break
+            }
+        }
+        self.navigationItem.rightBarButtonItem?.isEnabled = !isTextViewEmpty
     }
 }
+

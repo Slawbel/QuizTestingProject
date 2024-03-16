@@ -16,12 +16,12 @@
 		A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B32BA21121006133AD /* Coordinator.swift */; };
 		A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B52BA23C4C006133AD /* QuizScreen.swift */; };
 		A2EA51BE2BA297F7006133AD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51BD2BA297F6006133AD /* Model.swift */; };
-		A2EA51C12BA33381006133AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51C02BA33381006133AD /* SnapKit */; };
 		A2EA51C32BA346A7006133AD /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C22BA346A7006133AD /* Cell.swift */; };
 		A2EA51C72BA364D2006133AD /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C62BA364D2006133AD /* PaddingLabel.swift */; };
 		A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */; };
 		A2EA51CF2BA3C538006133AD /* CellForNewQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51CE2BA3C538006133AD /* CellForNewQuestions.swift */; };
-		A2EA51D42BA4AE02006133AD /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51D32BA4AE02006133AD /* IQKeyboardManagerSwift */; };
+		A2EA51D72BA4E196006133AD /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51D62BA4E196006133AD /* IQKeyboardManagerSwift */; };
+		A2EA51DA2BA4E19D006133AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51D92BA4E19D006133AD /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,8 +47,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A2EA51C12BA33381006133AD /* SnapKit in Frameworks */,
-				A2EA51D42BA4AE02006133AD /* IQKeyboardManagerSwift in Frameworks */,
+				A2EA51D72BA4E196006133AD /* IQKeyboardManagerSwift in Frameworks */,
+				A2EA51DA2BA4E19D006133AD /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,8 +109,8 @@
 			);
 			name = QuizTestingProject;
 			packageProductDependencies = (
-				A2EA51C02BA33381006133AD /* SnapKit */,
-				A2EA51D32BA4AE02006133AD /* IQKeyboardManagerSwift */,
+				A2EA51D62BA4E196006133AD /* IQKeyboardManagerSwift */,
+				A2EA51D92BA4E19D006133AD /* SnapKit */,
 			);
 			productName = QuizTestingProject;
 			productReference = A2EA51942BA1FF13006133AD /* QuizTestingProject.app */;
@@ -141,8 +141,8 @@
 			);
 			mainGroup = A2EA518B2BA1FF12006133AD;
 			packageReferences = (
-				A2EA51BF2BA33381006133AD /* XCRemoteSwiftPackageReference "SnapKit" */,
-				A2EA51D22BA4AE02006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				A2EA51D52BA4E196006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				A2EA51D82BA4E19D006133AD /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = A2EA51952BA1FF13006133AD /* Products */;
 			projectDirPath = "";
@@ -405,15 +405,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A2EA51BF2BA33381006133AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.7.1;
-			};
-		};
-		A2EA51D22BA4AE02006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+		A2EA51D52BA4E196006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
 			requirement = {
@@ -421,18 +413,26 @@
 				minimumVersion = 7.0.1;
 			};
 		};
+		A2EA51D82BA4E19D006133AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A2EA51C02BA33381006133AD /* SnapKit */ = {
+		A2EA51D62BA4E196006133AD /* IQKeyboardManagerSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A2EA51BF2BA33381006133AD /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
-		A2EA51D32BA4AE02006133AD /* IQKeyboardManagerSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A2EA51D22BA4AE02006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			package = A2EA51D52BA4E196006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		A2EA51D92BA4E19D006133AD /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2EA51D82BA4E19D006133AD /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 
