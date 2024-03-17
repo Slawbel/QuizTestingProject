@@ -12,8 +12,9 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     
     private var newQuestion: Quiz?
     
+    private var question: String = ""
     private var answers: [String] = []
-    private var correctAnswer: [UInt8] = []
+    private var correctAnswer: [UInt16] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -130,34 +131,48 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     func returnData() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "QuizQuestion")
-        request.fetchLimit = 1
- 
-        request.returnsObjectsAsFaults = false
-        do {
-            let result = try managedContext.fetch(request)
-            if let data = result.first as? NSManagedObject {
-                if let quizData = data.value(forKey: "quizQuestionAccModel") as? Quiz {
-                    self.newQuestion = quizData
-                }
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                print("Failed to retrieve app delegate")
+                return
             }
-            print(newQuestion ?? "")
-        } catch {
-            print("Failed returning")
-        }
-    }
+            
+            let managedContext = appDelegate.persistentContainer.viewContext
+            
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "QuizQuestion")
+            request.fetchLimit = 1
 
-    func setQuestionAndAnswersFromCoreData(instance: Quiz) {
-        self.questionLabel.text = instance.question
-        self.answers = instance.answers
-        self.correctAnswer = instance.correctAnswerNum
-        print("QuestionLabel: \(self.questionLabel.text ?? "")")
-        print("Answers: \(self.answers)")
-        print("CorrectAnswer: \(self.correctAnswer)")
-    }
+            request.returnsObjectsAsFaults = false
+            
+            do {
+                let result = try managedContext.fetch(request)
+                if let data = result.first as? NSManagedObject {
+                    if let instanceQuestion = data.value(forKey: "question") as? String {
+                        self.question = instanceQuestion
+                    }
+                    
+                    // Assuming "connectionWithSingleAnswer" is the name of the relationship to the Answer entity
+                    if let answers = data.value(forKey: "connectionWithSingleAnswer") as? Set<NSManagedObject> {
+                        for answer in answers {
+                            if let singleAnswer = answer.value(forKey: "singleAnswer") as? String {
+                                self.answers.append(singleAnswer)
+                            }
+                        }
+                    }
+                    
+                    // Assuming "connectionWithSingleCorrectAnswerNum" is the correct answer relationship
+                    if let correctAnswers = data.value(forKey: "connectionWithSingleCorrectAnswerNum") as? Set<NSManagedObject> {
+                        for correctAnswer in correctAnswers {
+                            if let correctAnswerNum = correctAnswer.value(forKey: "singleCorrectAnswerNum") as? UInt16 {
+                                self.correctAnswer.append(correctAnswerNum)
+                            }
+                        }
+                    }
+                }
+                print(newQuestion ?? "")
+            } catch {
+                print("Failed returning")
+            }
+        }
 
 }
 

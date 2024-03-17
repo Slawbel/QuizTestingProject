@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23E214" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Answer" representedClassName="Answer" syncable="YES" codeGenerationType="class">
+        <attribute name="singleAnswer" optional="YES" attributeType="String"/>
+        <attribute name="singleCorrectAnswerNum" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+    </entity>
     <entity name="QuizQuestion" representedClassName="QuizQuestion" syncable="YES" codeGenerationType="class">
-        <attribute name="quizQuestionAccModel" optional="YES"/>
+        <attribute name="question" optional="YES" attributeType="String"/>
+        <relationship name="connectionWithSingleAnswer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Answer"/>
+        <relationship name="connectionWithSingleCorrectAnswerNum" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Answer"/>
     </entity>
 </model>

@@ -14,11 +14,9 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     private let backButton = UIButton()
     private let saveButton = UIButton()
     
-    var newQuestion: Quiz?
-    
     var question: String = ""
     var answers: [String] = []
-    var correctAnswerNum: [UInt8] = []
+    var correctAnswerNum: [UInt16] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -161,7 +159,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         
         cell.answerNum.addAction(UIAction { _ in
             cell.answerNum.backgroundColor = .green
-            self.correctAnswerNum.append(UInt8(indexPath.row + 1))
+            self.correctAnswerNum.append(UInt16(indexPath.row + 1))
         }, for: .touchUpInside)
 
         cell.delegate = self
@@ -200,27 +198,50 @@ extension NewQuestionsScreen {
     func cellDidTapText(_ text: String) {
         self.answers.append(text)
     }
-    
-    func saveNewQuestion() {
-        newQuestion = Quiz(question: question, answers: answers, correctAnswerNum: correctAnswerNum)
-    }
 }
 
 extension NewQuestionsScreen {
     func createData() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            print("Failed to retrieve app delegate")
+            return
+        }
+
         let managedContext = appDelegate.persistentContainer.viewContext
-        
-        let entity = NSEntityDescription.entity(forEntityName: "QuizQuestion", in: managedContext)
-        let currency = NSManagedObject(entity: entity!, insertInto: managedContext)
-        currency.setValue(newQuestion, forKey: "quizQuestionAccModel")
-        
+
+        // Create a new QuizQuestion object
+        guard let entity = NSEntityDescription.entity(forEntityName: "QuizQuestion", in: managedContext) else {
+            print("Failed to retrieve entity description")
+            return
+        }
+
+        let quizQuestion = NSManagedObject(entity: entity, insertInto: managedContext)
+
+        guard !self.question.isEmpty else {
+            print("Question is empty. Data not saved.")
+            return
+        }
+
+        // For each answer string, create an Answer object and associate it with the QuizQuestion
+        for answerString in self.answers {
+            let answerEntity = NSEntityDescription.entity(forEntityName: "Answer", in: managedContext)!
+            let answerObject = NSManagedObject(entity: answerEntity, insertInto: managedContext)
+            answerObject.setValue(answerString, forKey: "singleAnswer")
+            
+            // Add the Answer object to the QuizQuestion's relationship
+            quizQuestion.mutableSetValue(forKey: "connectionWithSingleAnswer").add(answerObject)
+        }
+
+        // Save the changes
         do {
             try managedContext.save()
-            print("Saving was done")
+            print("Data saved successfully")
         } catch {
-            print("Failed saving")
+            print("Failed to save data: \(error.localizedDescription)")
         }
     }
+
 }
+
+
 
