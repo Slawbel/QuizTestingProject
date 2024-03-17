@@ -14,7 +14,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     
     private var question: String = ""
     private var answers: [String] = []
-    private var correctAnswer: [UInt16] = []
+    private var correctAnswer: [Int16] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -162,7 +162,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
                     // Assuming "connectionWithSingleCorrectAnswerNum" is the correct answer relationship
                     if let correctAnswers = data.value(forKey: "connectionWithSingleCorrectAnswerNum") as? Set<NSManagedObject> {
                         for correctAnswer in correctAnswers {
-                            if let correctAnswerNum = correctAnswer.value(forKey: "singleCorrectAnswerNum") as? UInt16 {
+                            if let correctAnswerNum = correctAnswer.value(forKey: "singleCorrectAnswerNum") as? Int16 {
                                 self.correctAnswer.append(correctAnswerNum)
                             }
                         }

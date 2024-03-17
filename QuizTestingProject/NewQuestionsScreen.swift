@@ -16,7 +16,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     
     var question: String = ""
     var answers: [String] = []
-    var correctAnswerNum: [UInt16] = []
+    var correctAnswerNum: [Int16] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -159,7 +159,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         
         cell.answerNum.addAction(UIAction { _ in
             cell.answerNum.backgroundColor = .green
-            self.correctAnswerNum.append(UInt16(indexPath.row + 1))
+            self.correctAnswerNum.append(Int16(indexPath.row + 1))
         }, for: .touchUpInside)
 
         cell.delegate = self
@@ -206,38 +206,32 @@ extension NewQuestionsScreen {
             print("Failed to retrieve app delegate")
             return
         }
-
+        
         let managedContext = appDelegate.persistentContainer.viewContext
-
-        // Create a new QuizQuestion object
-        guard let entity = NSEntityDescription.entity(forEntityName: "QuizQuestion", in: managedContext) else {
-            print("Failed to retrieve entity description")
-            return
+        
+        // Create a new QuizQuestion entity
+        let quizQuestionEntity = NSEntityDescription.entity(forEntityName: "QuizQuestion", in: managedContext)!
+        let quizQuestion = NSManagedObject(entity: quizQuestionEntity, insertInto: managedContext)
+        
+        // Set the question attribute
+        quizQuestion.setValue(question, forKey: "question")
+        
+        // Create and set the answers relationship
+        let answersEntity = NSEntityDescription.entity(forEntityName: "Answer", in: managedContext)!
+        for answerText in answers {
+            let answer = NSManagedObject(entity: answersEntity, insertInto: managedContext)
+            answer.setValue(answerText, forKey: "singleAnswer")
+            // Assuming the relationship name is "connectionWithSingleAnswer"
+            let answersSet = quizQuestion.mutableSetValue(forKey: "connectionWithSingleAnswer")
+            answersSet.add(answer)
         }
-
-        let quizQuestion = NSManagedObject(entity: entity, insertInto: managedContext)
-
-        guard !self.question.isEmpty else {
-            print("Question is empty. Data not saved.")
-            return
-        }
-
-        // For each answer string, create an Answer object and associate it with the QuizQuestion
-        for answerString in self.answers {
-            let answerEntity = NSEntityDescription.entity(forEntityName: "Answer", in: managedContext)!
-            let answerObject = NSManagedObject(entity: answerEntity, insertInto: managedContext)
-            answerObject.setValue(answerString, forKey: "singleAnswer")
-            
-            // Add the Answer object to the QuizQuestion's relationship
-            quizQuestion.mutableSetValue(forKey: "connectionWithSingleAnswer").add(answerObject)
-        }
-
-        // Save the changes
+        
+        // Save the managed object context
         do {
             try managedContext.save()
             print("Data saved successfully")
         } catch {
-            print("Failed to save data: \(error.localizedDescription)")
+            print("Failed to save data: \(error)")
         }
     }
 
