@@ -12,7 +12,6 @@ class Cell: UICollectionViewCell {
         
         answerNum.contentHorizontalAlignment = .center
         answerNum.contentVerticalAlignment = .center
-        answerNum.backgroundColor = .white
         answerNum.setTitleColor(.black, for: .normal)
         answerNum.layer.cornerRadius = 25
         answerNum.clipsToBounds = true
