@@ -5,7 +5,5 @@ struct Quiz {
     var answers: [String]
     var correctAnswerNum: [UInt16] = []
     
-    func checkAnswer(selectedAnswer: [UInt16]) -> Bool {
-        return correctAnswerNum == selectedAnswer
-    }
+    
 }

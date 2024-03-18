@@ -3,21 +3,29 @@ import SnapKit
 
 class Cell: UICollectionViewCell {
     
-    let answerNum = UILabel()
-    let answerText = UILabel()
+    var answerNum = UIButton()
+    var answerText = UILabel()
+    var addActionClosure: (() -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        answerNum.textAlignment = .center
+        answerNum.contentHorizontalAlignment = .center
+        answerNum.contentVerticalAlignment = .center
         answerNum.backgroundColor = .white
-        answerNum.textColor = .black
+        answerNum.setTitleColor(.black, for: .normal)
         answerNum.layer.cornerRadius = 25
         answerNum.clipsToBounds = true
+        answerNum.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         
-        answerText.textAlignment = .left
-        answerText.backgroundColor = .clear
-        answerText.textColor = .white
+        answerText.textAlignment = .center
+        answerText.textColor = UIColor.white.withAlphaComponent(0.5)
+        answerText.numberOfLines = 0
+        answerText.font = UIFont.boldSystemFont(ofSize: 20)
+        
+        answerNum.addAction(UIAction { [weak self] _ in
+            self?.addActionClosure?()
+        }, for: .touchUpInside)
         
         contentView.addSubview(answerNum)
         contentView.addSubview(answerText)

@@ -22,6 +22,10 @@
 		A2EA51CF2BA3C538006133AD /* CellForNewQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51CE2BA3C538006133AD /* CellForNewQuestions.swift */; };
 		A2EA51D72BA4E196006133AD /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51D62BA4E196006133AD /* IQKeyboardManagerSwift */; };
 		A2EA51DA2BA4E19D006133AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51D92BA4E19D006133AD /* SnapKit */; };
+		A2EA51E12BA780D8006133AD /* CommandsForHTTP.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51E02BA780D8006133AD /* CommandsForHTTP.swift */; };
+		A2EA51E32BA7817B006133AD /* ErrorCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51E22BA7817B006133AD /* ErrorCases.swift */; };
+		A2EA51E52BA781B9006133AD /* RequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51E42BA781B9006133AD /* RequestAPI.swift */; };
+		A2EA51E72BA78387006133AD /* ProcessingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51E62BA78387006133AD /* ProcessingAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +44,10 @@
 		A2EA51C62BA364D2006133AD /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewQuestionsScreen.swift; sourceTree = "<group>"; };
 		A2EA51CE2BA3C538006133AD /* CellForNewQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForNewQuestions.swift; sourceTree = "<group>"; };
+		A2EA51E02BA780D8006133AD /* CommandsForHTTP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommandsForHTTP.swift; sourceTree = "<group>"; };
+		A2EA51E22BA7817B006133AD /* ErrorCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCases.swift; sourceTree = "<group>"; };
+		A2EA51E42BA781B9006133AD /* RequestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPI.swift; sourceTree = "<group>"; };
+		A2EA51E62BA78387006133AD /* ProcessingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,11 +91,15 @@
 				A2EA51B12BA20F42006133AD /* SetColorByCode.swift */,
 				A2EA51C62BA364D2006133AD /* PaddingLabel.swift */,
 				A2EA51972BA1FF13006133AD /* AppDelegate.swift */,
+				A2EA51E02BA780D8006133AD /* CommandsForHTTP.swift */,
 				A2EA51A32BA1FF13006133AD /* Assets.xcassets */,
 				A2EA51A82BA1FF13006133AD /* Info.plist */,
 				A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */,
 				A2EA51BD2BA297F6006133AD /* Model.swift */,
 				A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */,
+				A2EA51E22BA7817B006133AD /* ErrorCases.swift */,
+				A2EA51E42BA781B9006133AD /* RequestAPI.swift */,
+				A2EA51E62BA78387006133AD /* ProcessingAPI.swift */,
 			);
 			path = QuizTestingProject;
 			sourceTree = "<group>";
@@ -175,11 +187,15 @@
 				A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */,
 				A2EA51CF2BA3C538006133AD /* CellForNewQuestions.swift in Sources */,
 				A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */,
+				A2EA51E12BA780D8006133AD /* CommandsForHTTP.swift in Sources */,
 				A2EA51A22BA1FF13006133AD /* QuizTestingProject.xcdatamodeld in Sources */,
 				A2EA51C32BA346A7006133AD /* Cell.swift in Sources */,
+				A2EA51E72BA78387006133AD /* ProcessingAPI.swift in Sources */,
 				A2EA51C72BA364D2006133AD /* PaddingLabel.swift in Sources */,
+				A2EA51E32BA7817B006133AD /* ErrorCases.swift in Sources */,
 				A2EA51982BA1FF13006133AD /* AppDelegate.swift in Sources */,
 				A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */,
+				A2EA51E52BA781B9006133AD /* RequestAPI.swift in Sources */,
 				A2EA51BE2BA297F7006133AD /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
