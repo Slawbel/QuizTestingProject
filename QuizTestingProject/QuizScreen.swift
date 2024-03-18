@@ -179,21 +179,26 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
         cell.answerText.text = self.answers[self.currentQuestionCounter][indexPath.row]
         
+        // Resetting the background color to clear initially
         cell.answerNum.backgroundColor = .white
-
-
+        
+        // Checking if selected answers exist for the current question and updating the background color
+        if !selectedAnswers.isEmpty && currentQuestionCounter < selectedAnswers.count {
+            let selectedIndices = selectedAnswers[currentQuestionCounter]
+            if selectedIndices.contains(Int16(indexPath.row + 1)) {
+                cell.answerNum.backgroundColor = .gray
+            }
+        }
         
         cell.addActionClosure = { [weak self] in
             guard let self = self else { return }
             self.addSelectedAnswers(Int16(indexPath.row+1))
             cell.answerNum.backgroundColor = .gray
         }
-        print(self.currentQuestionCounter)
-        print(selectedAnswers)
-        print(selectedAnswers[self.currentQuestionCounter])
         
         return cell
     }
+
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = 350 // Adjust the divisor and subtracted value as needed
