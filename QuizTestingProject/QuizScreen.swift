@@ -1,6 +1,6 @@
 import UIKit
 import SnapKit
-import CoreData
+import RealmSwift
 
 class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
@@ -13,9 +13,9 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     private let previousButton = UIButton()
     private let nextButton = UIButton()
     
-    private var question: [String] = ["How many mm in cm?", "How many mm in m?", "What is green color?"]
-    private var answers: [[String]] = [["10", "100", "0.1", "0,01"], ["10", "100", "0.1", "0,01"], ["A leaf", "Grass", "A cloud", "A stone"]]
-    private var correctAnswer: [[Int16]] = [[1], [2], [1,2]]
+    private var question: [String] = []
+    private var answers: [[String]] = []
+    private var correctAnswer: [[Int16]] = []
     
     var currentQuestionCounter = 0
     var selectedAnswers: [[Int16]] = []
@@ -25,15 +25,23 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     init(decision: Bool) {
         self.sourceSelector = decision
         super.init(nibName: nil, bundle: nil)
+        returnData()
         selectedAnswers = Array(repeating: [], count: question.count)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        /*if sourceSelector == true{
+            returnData()
+            print("success2")
+        } else {
+            
+        }*/
         
         let colorsHexQuizScreen = ["#4D1E5F", "#ED62B1", "#F9805D", "#FF8F34"]
         SetColorByCode.applyGradientBackground(to: view, colorsHex: colorsHexQuizScreen)
@@ -102,11 +110,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         
         collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
         
-        /*if !sourceSelector {
-            returnData()
-        } else {
-            // here should be placing of data from API to collection for the next separation on questio-answers-correctAnswers
-        }*/
+        
         
         setDataToScreen()
         
@@ -177,9 +181,21 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         cell.layer.cornerRadius = 35
         
         cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
-        cell.answerText.text = self.answers[self.currentQuestionCounter][indexPath.row]
         
-        // Resetting the background color to clear initially
+        // Check if the current question index is within bounds
+        if self.currentQuestionCounter < self.answers.count {
+            let currentAnswers = self.answers[self.currentQuestionCounter]
+            
+            // Check if the row index is within bounds for the current question's answers
+            if indexPath.row < currentAnswers.count {
+                cell.answerText.text = currentAnswers[indexPath.row]
+            } else {
+                // Handle the case where indexPath.row is out of bounds
+            }
+        } else {
+            // Handle the case where self.currentQuestionCounter is out of bounds
+        }
+        
         cell.answerNum.backgroundColor = .white
         
         // Checking if selected answers exist for the current question and updating the background color
@@ -199,56 +215,52 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         return cell
     }
 
+
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = 350 // Adjust the divisor and subtracted value as needed
-        let height: CGFloat = 70 // Keep the height constant
+        let width: CGFloat = 350
+        let height: CGFloat = 70
         return CGSize(width: width, height: height)
     }
     
-    /*func returnData() {
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                print("Failed to retrieve app delegate")
-                return
+    func returnData() {
+        do {
+            let realm = try Realm()
+            let quizQuestions = realm.objects(QuizModel.self)
+            print(quizQuestions)
+            
+            for _ in quizQuestions {
+                // Append an empty array for each question
+                selectedAnswers.append([])
             }
             
-            let managedContext = appDelegate.persistentContainer.viewContext
-            
-            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "QuizQuestion")
-            request.fetchLimit = 1
-
-            request.returnsObjectsAsFaults = false
-            
-            do {
-                let result = try managedContext.fetch(request)
-                if let data = result.first as? NSManagedObject {
-                    if let instanceQuestion = data.value(forKey: "question") as? String {
-                        self.question = instanceQuestion
-                    }
-                    
-                    // Assuming "connectionWithSingleAnswer" is the name of the relationship to the Answer entity
-                    if let answers = data.value(forKey: "connectionWithSingleAnswer") as? Set<NSManagedObject> {
-                        for answer in answers {
-                            if let singleAnswer = answer.value(forKey: "singleAnswer") as? String {
-                                self.answers.append(singleAnswer)
-                            }
-                        }
-                    }
-                    
-                    // Assuming "connectionWithSingleCorrectAnswerNum" is the correct answer relationship
-                    if let correctAnswers = data.value(forKey: "connectionWithSingleCorrectAnswerNum") as? Set<NSManagedObject> {
-                        for correctAnswer in correctAnswers {
-                            if let correctAnswerNum = correctAnswer.value(forKey: "singleCorrectAnswerNum") as? Int16 {
-                                self.correctAnswer.append(correctAnswerNum)
-                            }
-                        }
-                    }
+            for questionObject in quizQuestions {
+                question.append(questionObject.question)
+                
+                var answerArray: [String] = []
+                for answerObject in questionObject.options {
+                    answerArray.append(answerObject.text)
                 }
-                print(newQuestion ?? "")
-            } catch {
-                print("Failed returning")
+                answers.append(answerArray)
+                
+                var correctAnswerArray: [Int16] = []
+                for correctAnswerObject in questionObject.correctAnswers {
+                    correctAnswerArray.append(correctAnswerObject)
+                }
+                correctAnswer.append(correctAnswerArray)
             }
-        }*/
+            
+            // Print the retrieved data
+            print("Question: \(question)")
+            print("Answers: \(answers)")
+            print("Correct Answers: \(correctAnswer)")
+        } catch {
+            print("Error retrieving data from Realm: \(error)")
+        }
+    }
+
+
+
     
     func setDataToScreen() {
         questionLabel.text = question[currentQuestionCounter]

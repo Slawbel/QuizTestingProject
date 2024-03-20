@@ -9,13 +9,11 @@
 /* Begin PBXBuildFile section */
 		A2EA51982BA1FF13006133AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51972BA1FF13006133AD /* AppDelegate.swift */; };
 		A2EA519C2BA1FF13006133AD /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */; };
-		A2EA51A22BA1FF13006133AD /* QuizTestingProject.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */; };
 		A2EA51A42BA1FF13006133AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A2EA51A32BA1FF13006133AD /* Assets.xcassets */; };
 		A2EA51A72BA1FF13006133AD /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A2EA51A62BA1FF13006133AD /* Base */; };
 		A2EA51B22BA20F42006133AD /* SetColorByCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B12BA20F42006133AD /* SetColorByCode.swift */; };
 		A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B32BA21121006133AD /* Coordinator.swift */; };
 		A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51B52BA23C4C006133AD /* QuizScreen.swift */; };
-		A2EA51BE2BA297F7006133AD /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51BD2BA297F6006133AD /* Model.swift */; };
 		A2EA51C32BA346A7006133AD /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C22BA346A7006133AD /* Cell.swift */; };
 		A2EA51C72BA364D2006133AD /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C62BA364D2006133AD /* PaddingLabel.swift */; };
 		A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */; };
@@ -26,20 +24,22 @@
 		A2EA51E32BA7817B006133AD /* ErrorCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51E22BA7817B006133AD /* ErrorCases.swift */; };
 		A2EA51E52BA781B9006133AD /* RequestAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51E42BA781B9006133AD /* RequestAPI.swift */; };
 		A2EA51E72BA78387006133AD /* ProcessingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51E62BA78387006133AD /* ProcessingAPI.swift */; };
+		A2EA51EA2BA92D54006133AD /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51E92BA92D54006133AD /* Realm */; };
+		A2EA51EC2BA92D54006133AD /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51EB2BA92D54006133AD /* RealmSwift */; };
+		A2EA51EE2BA92FAB006133AD /* QuizModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51ED2BA92FAB006133AD /* QuizModel.swift */; };
+		A2EA51F02BAA60AC006133AD /* Answer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51EF2BAA60AC006133AD /* Answer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		A2EA51942BA1FF13006133AD /* QuizTestingProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuizTestingProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2EA51972BA1FF13006133AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
-		A2EA51A12BA1FF13006133AD /* QuizTestingProject.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = QuizTestingProject.xcdatamodel; sourceTree = "<group>"; };
 		A2EA51A32BA1FF13006133AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A2EA51A62BA1FF13006133AD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A2EA51A82BA1FF13006133AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2EA51B12BA20F42006133AD /* SetColorByCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetColorByCode.swift; sourceTree = "<group>"; };
 		A2EA51B32BA21121006133AD /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		A2EA51B52BA23C4C006133AD /* QuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizScreen.swift; sourceTree = "<group>"; };
-		A2EA51BD2BA297F6006133AD /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		A2EA51C22BA346A7006133AD /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		A2EA51C62BA364D2006133AD /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewQuestionsScreen.swift; sourceTree = "<group>"; };
@@ -48,6 +48,8 @@
 		A2EA51E22BA7817B006133AD /* ErrorCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorCases.swift; sourceTree = "<group>"; };
 		A2EA51E42BA781B9006133AD /* RequestAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAPI.swift; sourceTree = "<group>"; };
 		A2EA51E62BA78387006133AD /* ProcessingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessingAPI.swift; sourceTree = "<group>"; };
+		A2EA51ED2BA92FAB006133AD /* QuizModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizModel.swift; sourceTree = "<group>"; };
+		A2EA51EF2BAA60AC006133AD /* Answer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Answer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2EA51EC2BA92D54006133AD /* RealmSwift in Frameworks */,
+				A2EA51EA2BA92D54006133AD /* Realm in Frameworks */,
 				A2EA51D72BA4E196006133AD /* IQKeyboardManagerSwift in Frameworks */,
 				A2EA51DA2BA4E19D006133AD /* SnapKit in Frameworks */,
 			);
@@ -94,12 +98,12 @@
 				A2EA51E02BA780D8006133AD /* CommandsForHTTP.swift */,
 				A2EA51A32BA1FF13006133AD /* Assets.xcassets */,
 				A2EA51A82BA1FF13006133AD /* Info.plist */,
-				A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */,
-				A2EA51BD2BA297F6006133AD /* Model.swift */,
 				A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */,
 				A2EA51E22BA7817B006133AD /* ErrorCases.swift */,
 				A2EA51E42BA781B9006133AD /* RequestAPI.swift */,
 				A2EA51E62BA78387006133AD /* ProcessingAPI.swift */,
+				A2EA51ED2BA92FAB006133AD /* QuizModel.swift */,
+				A2EA51EF2BAA60AC006133AD /* Answer.swift */,
 			);
 			path = QuizTestingProject;
 			sourceTree = "<group>";
@@ -123,6 +127,8 @@
 			packageProductDependencies = (
 				A2EA51D62BA4E196006133AD /* IQKeyboardManagerSwift */,
 				A2EA51D92BA4E19D006133AD /* SnapKit */,
+				A2EA51E92BA92D54006133AD /* Realm */,
+				A2EA51EB2BA92D54006133AD /* RealmSwift */,
 			);
 			productName = QuizTestingProject;
 			productReference = A2EA51942BA1FF13006133AD /* QuizTestingProject.app */;
@@ -155,6 +161,7 @@
 			packageReferences = (
 				A2EA51D52BA4E196006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 				A2EA51D82BA4E19D006133AD /* XCRemoteSwiftPackageReference "SnapKit" */,
+				A2EA51E82BA92D54006133AD /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = A2EA51952BA1FF13006133AD /* Products */;
 			projectDirPath = "";
@@ -186,9 +193,10 @@
 				A2EA519C2BA1FF13006133AD /* WelcomeScreen.swift in Sources */,
 				A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */,
 				A2EA51CF2BA3C538006133AD /* CellForNewQuestions.swift in Sources */,
+				A2EA51EE2BA92FAB006133AD /* QuizModel.swift in Sources */,
 				A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */,
 				A2EA51E12BA780D8006133AD /* CommandsForHTTP.swift in Sources */,
-				A2EA51A22BA1FF13006133AD /* QuizTestingProject.xcdatamodeld in Sources */,
+				A2EA51F02BAA60AC006133AD /* Answer.swift in Sources */,
 				A2EA51C32BA346A7006133AD /* Cell.swift in Sources */,
 				A2EA51E72BA78387006133AD /* ProcessingAPI.swift in Sources */,
 				A2EA51C72BA364D2006133AD /* PaddingLabel.swift in Sources */,
@@ -196,7 +204,6 @@
 				A2EA51982BA1FF13006133AD /* AppDelegate.swift in Sources */,
 				A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */,
 				A2EA51E52BA781B9006133AD /* RequestAPI.swift in Sources */,
-				A2EA51BE2BA297F7006133AD /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -437,6 +444,14 @@
 				minimumVersion = 5.7.1;
 			};
 		};
+		A2EA51E82BA92D54006133AD /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -450,20 +465,17 @@
 			package = A2EA51D82BA4E19D006133AD /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
 		};
-/* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		A2EA51A02BA1FF13006133AD /* QuizTestingProject.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				A2EA51A12BA1FF13006133AD /* QuizTestingProject.xcdatamodel */,
-			);
-			currentVersion = A2EA51A12BA1FF13006133AD /* QuizTestingProject.xcdatamodel */;
-			path = QuizTestingProject.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
+		A2EA51E92BA92D54006133AD /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2EA51E82BA92D54006133AD /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
 		};
-/* End XCVersionGroup section */
+		A2EA51EB2BA92D54006133AD /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2EA51E82BA92D54006133AD /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A2EA518C2BA1FF12006133AD /* Project object */;
 }

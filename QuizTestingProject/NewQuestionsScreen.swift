@@ -1,5 +1,5 @@
 import UIKit
-import CoreData
+import RealmSwift
 import SnapKit
 
 protocol CellTextDelegate: AnyObject {
@@ -17,6 +17,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     var question: String = ""
     var answers: [String] = []
     var correctAnswerNum: [Int16] = []
+    var selectedAnswers: [Int16] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,21 +37,8 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         saveButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
         saveButton.layer.cornerRadius = 20
         saveButton.setTitle("Save", for: .normal)
-        saveButton.addAction(UIAction {_ in 
-            self.answers.removeAll()
-            self.question.removeAll()
-            for cell in self.collectionView.visibleCells {
-                if let cellForQuestion = cell as? CellForNewQuestions, let text = cellForQuestion.answerTextView.text {
-                    if !text.isEmpty {
-                        self.answers.append(text)
-                    }
-                }
-            }
-            self.question = self.newQuestionTextView.text
-            self.createData()
-            print("Saved questionL \(self.question)")
-            print("Saved answers: \(self.answers)")
-            print("Correct answers: \(self.correctAnswerNum)")
+        saveButton.addAction(UIAction { _ in
+            self.saveData()
         }, for: .touchUpInside)
         
         counterLabel.alpha = 0.3
@@ -158,9 +146,16 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         cell.answerTextView.text = "Enter option answer here"
         
         cell.answerNum.addAction(UIAction { _ in
-            cell.answerNum.backgroundColor = .green
-            self.correctAnswerNum.append(Int16(indexPath.row + 1))
+            if let index = self.selectedAnswers.firstIndex(of: Int16(indexPath.row + 1)) {
+                self.selectedAnswers.remove(at: index)
+                cell.answerNum.backgroundColor = .clear
+            } else {
+                // Select the answer if not already selected
+                self.selectedAnswers.append(Int16(indexPath.row + 1))
+                cell.answerNum.backgroundColor = .green
+            }
         }, for: .touchUpInside)
+
 
         cell.delegate = self
         
@@ -201,41 +196,46 @@ extension NewQuestionsScreen {
 }
 
 extension NewQuestionsScreen {
-    func createData() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            print("Failed to retrieve app delegate")
-            return
+
+    func saveData() {
+        // Reset answers and question
+        self.answers = []
+        if let question = newQuestionTextView.text, !question.isEmpty {
+            self.question = question
+        }
+
+        for cell in collectionView.visibleCells {
+            if let cellForQuestion = cell as? CellForNewQuestions, let answer = cellForQuestion.answerTextView.text {
+                self.answers.append(answer)
+            }
         }
         
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        // Create a new QuizQuestion entity
-        let quizQuestionEntity = NSEntityDescription.entity(forEntityName: "QuizQuestion", in: managedContext)!
-        let quizQuestion = NSManagedObject(entity: quizQuestionEntity, insertInto: managedContext)
-        
-        // Set the question attribute
-        quizQuestion.setValue(question, forKey: "question")
-        
-        // Create and set the answers relationship
-        let answersEntity = NSEntityDescription.entity(forEntityName: "Answer", in: managedContext)!
-        for answerText in answers {
-            let answer = NSManagedObject(entity: answersEntity, insertInto: managedContext)
-            answer.setValue(answerText, forKey: "singleAnswer")
-            // Assuming the relationship name is "connectionWithSingleAnswer"
-            let answersSet = quizQuestion.mutableSetValue(forKey: "connectionWithSingleAnswer")
-            answersSet.add(answer)
-        }
-        
-        // Save the managed object context
+        self.correctAnswerNum = self.selectedAnswers
+
+
+        // Create and save QuizModel
+        let quizModel = QuizModel(question: self.question, answers: self.answers, correctAnswer: self.correctAnswerNum)
+        print(self.correctAnswerNum)
+        print(self.answers)
+        print(quizModel)
+        createData(quizModel)
+    }
+
+    
+    func createData(_ quizModel: QuizModel) {
         do {
-            try managedContext.save()
-            print("Data saved successfully")
+            let realm = try Realm()
+            try realm.write {
+                realm.add(quizModel)
+                print("Data saved successfully")
+            }
         } catch {
             print("Failed to save data: \(error)")
         }
     }
-
 }
+
+
 
 
 
