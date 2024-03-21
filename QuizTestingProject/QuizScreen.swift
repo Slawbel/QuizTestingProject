@@ -191,8 +191,16 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
             
             cell.addActionClosure = { [weak self] in
                 guard let self = self else { return }
-                self.addSelectedAnswers(Int8(indexPath.row+1))
-                cell.answerNum.backgroundColor = .gray
+                let selectedAnswer = Int8(indexPath.row + 1)
+                if self.selectedAnswers[self.currentQuestionIndex].contains(selectedAnswer) {
+                    // Answer already selected, so remove it
+                    self.removeSelectedAnswer(selectedAnswer)
+                    cell.answerNum.backgroundColor = .white
+                } else {
+                    // Answer not selected, so add it
+                    self.addSelectedAnswers(selectedAnswer)
+                    cell.answerNum.backgroundColor = .gray
+                }
             }
             
             return cell
@@ -284,6 +292,19 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         }
         selectedAnswers[currentQuestionIndex].append(Int8(numOfSelectedAnswer))
     }
+    
+    private func removeSelectedAnswer(_ selectedAnswer: Int8) {
+        guard currentQuestionIndex < selectedAnswers.count else {
+            print("Error: currentQuestionIndex is out of bounds of selectedAnswers array.")
+            return
+        }
+        if let index = selectedAnswers[currentQuestionIndex].firstIndex(of: selectedAnswer) {
+            selectedAnswers[currentQuestionIndex].remove(at: index)
+        } else {
+            print("Error: Selected answer not found in selectedAnswers array.")
+        }
+    }
+
     
     private func hidePreviousButton() {
         if currentQuestionIndex == 0 {
