@@ -13,11 +13,10 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     private var collectionView: UICollectionView!
     private let backButton = UIButton()
     private let saveButton = UIButton()
-    
+        
     var question: String = ""
     var answers: [String] = []
-    var correctAnswerNum: [Int16] = []
-    var selectedAnswers: [Int16] = []
+    var selectedAnswers: [Int8] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -146,12 +145,11 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         cell.answerTextView.text = "Enter option answer here"
         
         cell.answerNum.addAction(UIAction { _ in
-            if let index = self.selectedAnswers.firstIndex(of: Int16(indexPath.row + 1)) {
+            if let index = self.selectedAnswers.firstIndex(of: Int8(indexPath.row + 1)) {
                 self.selectedAnswers.remove(at: index)
-                cell.answerNum.backgroundColor = .clear
+                cell.answerNum.backgroundColor = .red
             } else {
-                // Select the answer if not already selected
-                self.selectedAnswers.append(Int16(indexPath.row + 1))
+                self.selectedAnswers.append(Int8(indexPath.row + 1))
                 cell.answerNum.backgroundColor = .green
             }
         }, for: .touchUpInside)
@@ -164,12 +162,9 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = 350 // Adjust the divisor and subtracted value as needed
-        let height: CGFloat = 70 // Keep the height constant
+        let width: CGFloat = 350 
+        let height: CGFloat = 70
         return CGSize(width: width, height: height)
-    }
-    
-    @objc private func saveTapped() {
     }
 }
 
@@ -196,46 +191,61 @@ extension NewQuestionsScreen {
 }
 
 extension NewQuestionsScreen {
-
     func saveData() {
-        // Reset answers and question
         self.answers = []
-        if let question = newQuestionTextView.text, !question.isEmpty {
-            self.question = question
+        if let questionText = newQuestionTextView.text, !questionText.isEmpty {
+            self.question = questionText
         }
-
+        
         for cell in collectionView.visibleCells {
             if let cellForQuestion = cell as? CellForNewQuestions, let answer = cellForQuestion.answerTextView.text {
                 self.answers.append(answer)
             }
         }
+
+        let quizModel = QuizModel()
+        quizModel.question = self.question
+
+        print(answers)
+        if let firstAnswer = self.answers.first {
+            quizModel.answer1 = firstAnswer
+        }
+        if self.answers.count > 1 {
+            quizModel.answer2 = self.answers[1]
+        }
+        if self.answers.count > 2 {
+            quizModel.answer3 = self.answers[2]
+        }
+        if self.answers.count > 3 {
+            quizModel.answer4 = self.answers[3]
+        }
         
-        self.correctAnswerNum = self.selectedAnswers
-
-
-        // Create and save QuizModel
-        let quizModel = QuizModel(question: self.question, answers: self.answers, correctAnswer: self.correctAnswerNum)
-        print(self.correctAnswerNum)
-        print(self.answers)
+        if !selectedAnswers.isEmpty {
+            for (index, element) in selectedAnswers.enumerated() {
+                switch index {
+                case 0:
+                    quizModel.corAnswer1 = element
+                case 1:
+                    quizModel.CorAnswer2 = element
+                case 2:
+                    quizModel.CorAnswer3 = element
+                default:
+                    break
+                }
+            }
+        }
         print(quizModel)
-        createData(quizModel)
-    }
 
-    
-    func createData(_ quizModel: QuizModel) {
         do {
             let realm = try Realm()
             try realm.write {
                 realm.add(quizModel)
-                print("Data saved successfully")
+                print("Quiz model added to Realm")
             }
         } catch {
-            print("Failed to save data: \(error)")
+            print("Error saving quizModel: \(error)")
         }
     }
+
 }
-
-
-
-
 

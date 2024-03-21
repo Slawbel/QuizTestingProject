@@ -15,18 +15,18 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     
     private var question: [String] = []
     private var answers: [[String]] = []
-    private var correctAnswer: [[Int16]] = []
+    private var correctAnswer: [[Int8]] = []
     
-    var currentQuestionCounter = 0
-    var selectedAnswers: [[Int16]] = []
-    var correctAnswersAferCheck: Int = 0
+    private var quizModels: Results<QuizModel>?
+    private var currentQuestionIndex = 0
+    private var selectedAnswers: [[Int8]] = []
+    private var correctAnswersAfterCheck: Int = 0
     var sourceSelector: Bool
     
     init(decision: Bool) {
         self.sourceSelector = decision
         super.init(nibName: nil, bundle: nil)
-        returnData()
-        selectedAnswers = Array(repeating: [], count: question.count)
+
     }
 
     required init?(coder: NSCoder) {
@@ -35,13 +35,6 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        /*if sourceSelector == true{
-            returnData()
-            print("success2")
-        } else {
-            
-        }*/
         
         let colorsHexQuizScreen = ["#4D1E5F", "#ED62B1", "#F9805D", "#FF8F34"]
         SetColorByCode.applyGradientBackground(to: view, colorsHex: colorsHexQuizScreen)
@@ -110,8 +103,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         
         collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
         
-        
-        
+        retrieveData()
         setDataToScreen()
         
         view.addSubview(backButton)
@@ -175,47 +167,36 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
-        
-        cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        cell.layer.cornerRadius = 35
-        
-        cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
-        
-        // Check if the current question index is within bounds
-        if self.currentQuestionCounter < self.answers.count {
-            let currentAnswers = self.answers[self.currentQuestionCounter]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
             
-            // Check if the row index is within bounds for the current question's answers
+            cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+            cell.layer.cornerRadius = 35
+            
+            cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
+            
+            let currentAnswers = answers[currentQuestionIndex]
+
             if indexPath.row < currentAnswers.count {
                 cell.answerText.text = currentAnswers[indexPath.row]
-            } else {
-                // Handle the case where indexPath.row is out of bounds
             }
-        } else {
-            // Handle the case where self.currentQuestionCounter is out of bounds
-        }
-        
-        cell.answerNum.backgroundColor = .white
-        
-        // Checking if selected answers exist for the current question and updating the background color
-        if !selectedAnswers.isEmpty && currentQuestionCounter < selectedAnswers.count {
-            let selectedIndices = selectedAnswers[currentQuestionCounter]
-            if selectedIndices.contains(Int16(indexPath.row + 1)) {
+            
+            cell.answerNum.backgroundColor = .white
+            
+            if !selectedAnswers.isEmpty && currentQuestionIndex < selectedAnswers.count {
+                let selectedIndices = selectedAnswers[currentQuestionIndex]
+                if selectedIndices.contains(Int8(indexPath.row + 1)) {
+                    cell.answerNum.backgroundColor = .gray
+                }
+            }
+            
+            cell.addActionClosure = { [weak self] in
+                guard let self = self else { return }
+                self.addSelectedAnswers(Int8(indexPath.row+1))
                 cell.answerNum.backgroundColor = .gray
             }
+            
+            return cell
         }
-        
-        cell.addActionClosure = { [weak self] in
-            guard let self = self else { return }
-            self.addSelectedAnswers(Int16(indexPath.row+1))
-            cell.answerNum.backgroundColor = .gray
-        }
-        
-        return cell
-    }
-
-
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = 350
@@ -223,90 +204,9 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         return CGSize(width: width, height: height)
     }
     
-    func returnData() {
-        do {
-            let realm = try Realm()
-            let quizQuestions = realm.objects(QuizModel.self)
-            print(quizQuestions)
-            
-            for _ in quizQuestions {
-                // Append an empty array for each question
-                selectedAnswers.append([])
-            }
-            
-            for questionObject in quizQuestions {
-                question.append(questionObject.question)
-                
-                var answerArray: [String] = []
-                for answerObject in questionObject.options {
-                    answerArray.append(answerObject.text)
-                }
-                answers.append(answerArray)
-                
-                var correctAnswerArray: [Int16] = []
-                for correctAnswerObject in questionObject.correctAnswers {
-                    correctAnswerArray.append(correctAnswerObject)
-                }
-                correctAnswer.append(correctAnswerArray)
-            }
-            
-            // Print the retrieved data
-            print("Question: \(question)")
-            print("Answers: \(answers)")
-            print("Correct Answers: \(correctAnswer)")
-        } catch {
-            print("Error retrieving data from Realm: \(error)")
-        }
-    }
-
-
-
-    
-    func setDataToScreen() {
-        questionLabel.text = question[currentQuestionCounter]
-        counterLabel.text = "\(currentQuestionCounter+1) from \(question.count)"
-    }
-    
-    @objc func previousButtonTapped() {
-        if currentQuestionCounter > 0 {
-            self.currentQuestionCounter-=1
-            if currentQuestionCounter != question.count-1 {
-                nextButton.isHidden = false
-            }
-        }
-        self.hidePreviousButton()
-        setDataToScreen()
-        collectionView.reloadData()
-    }
-    
-    @objc func nextButtonTapped() {
-        if currentQuestionCounter < question.count-1 {
-            self.currentQuestionCounter+=1
-            if currentQuestionCounter != 0 {
-                previousButton.isHidden = false
-            }
-        }
-        if currentQuestionCounter == question.count-1 {
-            nextButton.isHidden = true
-        }
-        setDataToScreen()
-        collectionView.reloadData()
-        
-    }
-    
-    func addSelectedAnswers(_ numOfSelectedAnswer: Int16) {
-        if selectedAnswers[currentQuestionCounter].contains(numOfSelectedAnswer) { return }
-        selectedAnswers[currentQuestionCounter].append(numOfSelectedAnswer)
-    }
-    
-    func hidePreviousButton() {
-        if currentQuestionCounter == 0 {
-            previousButton.isHidden = true
-        }
-    }
-    
     func showAlert() {
-        let alertController = UIAlertController(title: "Quiz is done", message: "\(self.correctAnswersAferCheck) are correct from \(self.question.count)", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Quiz is done", message: "\(self.correctAnswersAfterCheck) are correct from \(self.question.count)", preferredStyle: .alert)
+        print(correctAnswer)
         let exitAction = UIAlertAction(title: "Exit", style: .default) { _ in
             self.exitAction()
         }
@@ -315,23 +215,105 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         present(alertController, animated: true, completion: nil)
     }
     
+    private func retrieveData() {
+        do {
+            let realm = try Realm()
+            let quizModels = realm.objects(QuizModel.self)
+            
+            self.question = quizModels.map { $0.question }
+            self.answers = quizModels.map { [$0.answer1, $0.answer2, $0.answer3, $0.answer4] }
+            
+            self.correctAnswer = quizModels.map { model in
+                var answers: [Int8] = []
+                answers.append(model.corAnswer1)
+                if let corAnswer2 = model.CorAnswer2 {
+                    answers.append(corAnswer2)
+                }
+                if let corAnswer3 = model.CorAnswer3 {
+                    answers.append(corAnswer3)
+                }
+                return answers
+            }
+            
+            self.selectedAnswers = Array(repeating: [], count: quizModels.count)
+            
+        } catch {
+            print("Error retrieving data: \(error)")
+        }
+    }
+
+    func setDataToScreen() {
+            questionLabel.text = question[currentQuestionIndex]
+            counterLabel.text = "\(currentQuestionIndex+1) from \(question.count)"
+        }
+    
+    @objc func previousButtonTapped() {
+        if currentQuestionIndex > 0 {
+            self.currentQuestionIndex -= 1
+            if currentQuestionIndex != question.count - 1 {
+                nextButton.isHidden = false
+            }
+            if currentQuestionIndex < selectedAnswers.count {
+                setDataToScreen()
+                collectionView.reloadData()
+            }
+        }
+        self.hidePreviousButton()
+    }
+
+    @objc func nextButtonTapped() {
+        if currentQuestionIndex < question.count - 1 {
+            self.currentQuestionIndex += 1
+            if currentQuestionIndex != 0 {
+                previousButton.isHidden = false
+            }
+            if currentQuestionIndex < selectedAnswers.count {
+                setDataToScreen()
+                collectionView.reloadData()
+            }
+        }
+        if currentQuestionIndex == question.count - 1 {
+            nextButton.isHidden = true
+        }
+    }
+    
+    private func addSelectedAnswers(_ numOfSelectedAnswer: Int8) {
+        guard currentQuestionIndex < selectedAnswers.count else {
+            print("Error: currentQuestionIndex is out of bounds of selectedAnswers array.")
+            return
+        }
+        selectedAnswers[currentQuestionIndex].append(Int8(numOfSelectedAnswer))
+    }
+    
+    private func hidePreviousButton() {
+        if currentQuestionIndex == 0 {
+            previousButton.isHidden = true
+        }
+    }
+    
     func exitAction() {
-        self.question.removeAll()
-        self.answers.removeAll()
-        self.correctAnswer.removeAll()
-        self.selectedAnswers.removeAll()
         Coordinator.closeAnotherScreen(from: self)
     }
     
-    func checkAnswer(selectedAnswer: [[Int16]], correctAnswer: [[Int16]]) {
-        for counter in 0...question.count-1 {
+    func checkAnswer(selectedAnswer: [[Int8]], correctAnswer: [[Int8]]) {
+        guard selectedAnswer.count == correctAnswer.count else {
+            print("Error: The number of questions in selectedAnswer and correctAnswer arrays are different.")
+            return
+        }
+
+        for counter in 0..<selectedAnswer.count {
+            guard counter < selectedAnswer.count && counter < correctAnswer.count else {
+                print("Error: Index out of range in selectedAnswer or correctAnswer array.")
+                return
+            }
+
             if arraysContainSameElements(selectedAnswer[counter], correctAnswer[counter]) {
-                correctAnswersAferCheck+=1
+                correctAnswersAfterCheck += 1
             }
         }
     }
     
-    func arraysContainSameElements(_ array1: [Int16], _ array2: [Int16]) -> Bool {
+    private func arraysContainSameElements(_ array1: [Int8], _ array2: [Int8]) -> Bool {
         let sortedArray1 = array1.sorted()
         let sortedArray2 = array2.sorted()
         return sortedArray1 == sortedArray2
