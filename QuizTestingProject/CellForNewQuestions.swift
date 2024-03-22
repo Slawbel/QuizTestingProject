@@ -1,19 +1,24 @@
 import UIKit
 import SnapKit
 
+
+
 class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
     
-    let answerNum = UILabel()
+    let answerNum = UIButton()
     let answerTextView = UITextView()
+    
+    weak var delegate: CellTextDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        answerNum.textAlignment = .center
-        answerNum.backgroundColor = .white
-        answerNum.textColor = .black
+        answerNum.backgroundColor = .red
+        answerNum.tintColor = .black
         answerNum.layer.cornerRadius = 25
-        answerNum.clipsToBounds = true
+        answerNum.titleLabel?.textAlignment = .center
+        answerNum.setTitleColor(.black, for: .normal)
+        
         
         answerTextView.keyboardAppearance = .dark
         answerTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -24,7 +29,6 @@ class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
         answerTextView.layer.cornerRadius = 5
         answerTextView.layer.borderWidth = 0
         answerTextView.delegate = self
-        answerTextView.text = "Enter option answer here"
         answerTextView.textColor = UIColor.lightGray
         
         contentView.addSubview(answerNum)
@@ -43,6 +47,7 @@ class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
         }
     }
     
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -53,6 +58,13 @@ class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
             textView.textColor = .white
         }
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        if let text = textView.text {
+            self.delegate?.cellDidTapText(text)
+        }
+    }
 }
+
 
 
