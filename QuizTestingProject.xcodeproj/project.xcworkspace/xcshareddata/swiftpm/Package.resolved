@@ -1,13 +1,13 @@
 {
-  "originHash" : "2b48aac763974188f7b1525fb998e6f0401bb1d9c9f189378976e361934aefc3",
+  "originHash" : "c103b40472ebb56f32f84b985497282d02bf53b3c814f798845e324f2a73b0bb",
   "pins" : [
     {
       "identity" : "iqkeyboardmanager",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/hackiftekhar/IQKeyboardManager",
       "state" : {
-        "revision" : "aa656e1f0d95f0154622f453599318602848be3b",
-        "version" : "7.0.1"
+        "revision" : "5d30eba093678d05a6d5d1800f8c1d2121c7e3dd",
+        "version" : "7.0.2"
       }
     },
     {

@@ -30,15 +30,15 @@ class Cell: UICollectionViewCell {
         contentView.addSubview(answerText)
         
         answerNum.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(10)
+            make.trailing.equalToSuperview().inset(10)
             make.centerY.equalToSuperview()
             make.width.height.equalTo(50)
         }
         
         answerText.snp.makeConstraints { make in
-            make.leading.equalTo(answerNum.snp.trailing).offset(10)
+            make.trailing.equalTo(answerNum.snp.leading).offset(10)
             make.top.bottom.equalToSuperview().inset(10)
-            make.trailing.equalToSuperview().inset(15)
+            make.leading.equalToSuperview().inset(15)
         }
     }
     

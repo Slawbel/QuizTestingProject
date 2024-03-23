@@ -1,5 +1,6 @@
 import UIKit
 import SnapKit
+import RealmSwift
 
 class WelcomeScreen: UIViewController {
     
@@ -30,8 +31,12 @@ class WelcomeScreen: UIViewController {
         playCustomQuizButton.alpha = 0.3
         playCustomQuizButton.setTitleColor(.white, for: .normal)
         playCustomQuizButton.addAction(UIAction {_ in
-            let quizScreen = QuizScreen(decision: false)
-            Coordinator.openAnotherScreen(from: self, to: quizScreen)
+            if self.isRealmEmpty() {
+                self.showAlert()
+            } else {
+                let quizScreen = QuizScreen(decision: false)
+                Coordinator.openAnotherScreen(from: self, to: quizScreen)
+            }
         }, for: .primaryActionTriggered)
         playCustomQuizButton.setTitle("My Quiz", for: .normal)
         playCustomQuizButton.titleLabel?.font = .boldSystemFont(ofSize: 28)
@@ -88,6 +93,27 @@ class WelcomeScreen: UIViewController {
             make.height.equalTo(50)
             make.width.equalTo(340)
         }
+    }
+    
+    func isRealmEmpty() -> Bool {
+        do {
+            let realm = try Realm()
+            let objectsCount = realm.objects(QuizModel.self).count
+            return objectsCount == 0
+        } catch {
+            print("Error accessing Realm database: \(error.localizedDescription)")
+            return true // Consider database empty if there's an error accessing it
+        }
+    }
+    
+    func showAlert() {
+        let alertController = UIAlertController(title: "No questions added", message: "Add them below", preferredStyle: .alert)
+        let exitAction = UIAlertAction(title: "Exit", style: .default) { _ in
+            print("No questions in Realms database")
+        }
+        alertController.addAction(exitAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
 }
 

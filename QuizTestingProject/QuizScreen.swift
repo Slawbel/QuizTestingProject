@@ -185,8 +185,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
             if indexPath.row < currentAnswers.count {
                 cell.answerText.text = currentAnswers[indexPath.row]
             }
-                    
-            cell.answerNum.backgroundColor = .white
+ 
                     
             if !selectedAnswers.isEmpty && currentQuestionIndex < selectedAnswers.count {
                 let selectedIndices = selectedAnswers[currentQuestionIndex]
@@ -195,6 +194,9 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
                 }
             }
         }
+        
+        
+        cell.answerNum.backgroundColor = .white
         
         cell.addActionClosure = { [weak self] in
             guard let self = self else { return }
@@ -231,7 +233,6 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     
     func showAlert() {
         let alertController = UIAlertController(title: "Quiz is done", message: "\(self.correctAnswersAfterCheck) are correct from \(self.question.count)", preferredStyle: .alert)
-        print(correctAnswer)
         let exitAction = UIAlertAction(title: "Exit", style: .default) { _ in
             self.exitAction()
         }
