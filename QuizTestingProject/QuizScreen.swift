@@ -22,11 +22,10 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     private var selectedAnswers: [[Int8]] = []
     private var correctAnswersAfterCheck: Int = 0
     var sourceSelector: Bool
-    
+        
     init(decision: Bool) {
         self.sourceSelector = decision
         super.init(nibName: nil, bundle: nil)
-
     }
 
     required init?(coder: NSCoder) {
@@ -103,9 +102,15 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         
         collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
         
-        retrieveData()
-        setDataToScreen()
+        // API or Realm - what data will be donwloaded depeneds on sourceSelector
+        if sourceSelector {
+            parsingJSONData()
+        } else {
+            retrieveData()
+        }
         
+        setDataToScreen()
+                
         view.addSubview(backButton)
         view.addSubview(finishButton)
         view.addSubview(counterLabel)
@@ -167,31 +172,41 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! Cell
+                
+        cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
+        cell.layer.cornerRadius = 35
+                
+        cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
             
-            cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-            cell.layer.cornerRadius = 35
-            
-            cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
-            
+        if currentQuestionIndex < answers.count {
             let currentAnswers = answers[currentQuestionIndex]
-
+                    
             if indexPath.row < currentAnswers.count {
                 cell.answerText.text = currentAnswers[indexPath.row]
             }
-            
+                    
             cell.answerNum.backgroundColor = .white
-            
+                    
             if !selectedAnswers.isEmpty && currentQuestionIndex < selectedAnswers.count {
                 let selectedIndices = selectedAnswers[currentQuestionIndex]
                 if selectedIndices.contains(Int8(indexPath.row + 1)) {
                     cell.answerNum.backgroundColor = .gray
                 }
             }
+        }
+        
+        cell.addActionClosure = { [weak self] in
+            guard let self = self else { return }
+                
+            print("Current # of question is: \(currentQuestionIndex + 1)")
+            print("What question is this question: \(question[currentQuestionIndex])")
+            print("What answers are included to this question: \(answers[currentQuestionIndex])")
+            print("What correct answers are: \(correctAnswer[currentQuestionIndex])")
             
-            cell.addActionClosure = { [weak self] in
-                guard let self = self else { return }
-                let selectedAnswer = Int8(indexPath.row + 1)
+            
+            let selectedAnswer = Int8(indexPath.row + 1)
+            if self.currentQuestionIndex < self.selectedAnswers.count {
                 if self.selectedAnswers[self.currentQuestionIndex].contains(selectedAnswer) {
                     // Answer already selected, so remove it
                     self.removeSelectedAnswer(selectedAnswer)
@@ -200,11 +215,13 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
                     // Answer not selected, so add it
                     self.addSelectedAnswers(selectedAnswer)
                     cell.answerNum.backgroundColor = .gray
+                    print("What answer was selected: \(selectedAnswers[currentQuestionIndex])")
                 }
             }
-            
-            return cell
         }
+            
+        return cell
+    }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = 350
@@ -243,7 +260,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
                 return answers
             }
             
-            self.selectedAnswers = Array(repeating: [], count: quizModels.count)
+            createEmptySelectedAnswers()
             
         } catch {
             print("Error retrieving data: \(error)")
@@ -251,10 +268,127 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     }
 
     func setDataToScreen() {
+        if currentQuestionIndex < question.count {
             questionLabel.text = question[currentQuestionIndex]
-            counterLabel.text = "\(currentQuestionIndex+1) from \(question.count)"
+            counterLabel.text = "\(currentQuestionIndex + 1) from \(question.count)"
+        } else {
+            // Handle the case when currentQuestionIndex exceeds the bounds of the question array
+            // For example, reset the UI elements or display an error message
+            print("Error: currentQuestionIndex is out of bounds")
         }
+    }
     
+    func exitAction() {
+        Coordinator.closeAnotherScreen(from: self)
+    }
+    
+    private func createEmptySelectedAnswers() {
+        self.selectedAnswers = Array(repeating: [], count: question.count)
+    }
+}
+
+// MARK: - parsing of JSON data
+extension QuizScreen {
+    func parsingJSONData() {
+        guard let url = URL(string: "https://api.npoint.io/536a72fc9ad7ef5dfe69") else { return }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            guard let data = data, error == nil else {
+                print("Error fetching JSON data: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data, options: [])
+                if let jsonArray = json as? [[String: Any]] {
+                    self.processJSONData(jsonArray)
+                }
+            } catch {
+                print("Error parsing JSON data: \(error.localizedDescription)")
+            }
+        }.resume()
+    }
+
+    // Inside processJSONData()
+    func processJSONData(_ jsonArray: [[String: Any]]) {
+        // Clear previous data
+        self.question.removeAll()
+        self.answers.removeAll()
+        self.correctAnswer.removeAll()
+        // Iterate over JSON array and process quiz questions and answers
+        for jsonDict in jsonArray {
+            if let question = jsonDict["question"] as? String,
+               let answers = jsonDict["answers"] as? [String],
+               let correctAnswer = jsonDict["correctAnswer"] as? [Int8] {
+                self.question.append(question)
+                self.answers.append(answers)
+                self.correctAnswer.append(correctAnswer.map { Int8($0) })
+                // Process each quiz question
+                print("Question: \(question)")
+                print("Answers: \(answers)")
+                print("Correct Answer Indices: \(correctAnswer)")
+                print("-----")
+            }
+        }
+        createEmptySelectedAnswers()
+        DispatchQueue.main.async {
+            self.setDataToScreen()
+            self.collectionView.reloadData() // Reload collection view to reflect new data
+        }
+    }
+}
+
+// MARK: - check of answer
+extension QuizScreen {
+    func checkAnswer(selectedAnswer: [[Int8]], correctAnswer: [[Int8]]) {
+        guard selectedAnswer.count == correctAnswer.count else {
+            print("Error: The number of questions in selectedAnswer and correctAnswer arrays are different.")
+            return
+        }
+
+        for counter in 0..<selectedAnswer.count {
+            guard counter < selectedAnswer.count && counter < correctAnswer.count else {
+                print("Error: Index out of range in selectedAnswer or correctAnswer array.")
+                return
+            }
+
+            if arraysContainSameElements(selectedAnswer[counter], correctAnswer[counter]) {
+                correctAnswersAfterCheck += 1
+            }
+        }
+    }
+    
+    private func arraysContainSameElements(_ array1: [Int8], _ array2: [Int8]) -> Bool {
+        let sortedArray1 = array1.sorted()
+        let sortedArray2 = array2.sorted()
+        return sortedArray1 == sortedArray2
+    }
+}
+
+// MARK: - selection and deselection of answer
+extension QuizScreen {
+    private func addSelectedAnswers(_ numOfSelectedAnswer: Int8) {
+        guard currentQuestionIndex < selectedAnswers.count else {
+            print("Error: currentQuestionIndex is out of bounds of selectedAnswers array.")
+            return
+        }
+        selectedAnswers[currentQuestionIndex].append(Int8(numOfSelectedAnswer))
+    }
+    
+    private func removeSelectedAnswer(_ selectedAnswer: Int8) {
+        guard currentQuestionIndex < selectedAnswers.count else {
+            print("Error: currentQuestionIndex is out of bounds of selectedAnswers array.")
+            return
+        }
+        if let index = selectedAnswers[currentQuestionIndex].firstIndex(of: selectedAnswer) {
+            selectedAnswers[currentQuestionIndex].remove(at: index)
+        } else {
+            print("Error: Selected answer not found in selectedAnswers array.")
+        }
+    }
+}
+
+// MARK: - changing of questions on the screen
+extension QuizScreen {
     @objc func previousButtonTapped() {
         if currentQuestionIndex > 0 {
             self.currentQuestionIndex -= 1
@@ -285,58 +419,9 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         }
     }
     
-    private func addSelectedAnswers(_ numOfSelectedAnswer: Int8) {
-        guard currentQuestionIndex < selectedAnswers.count else {
-            print("Error: currentQuestionIndex is out of bounds of selectedAnswers array.")
-            return
-        }
-        selectedAnswers[currentQuestionIndex].append(Int8(numOfSelectedAnswer))
-    }
-    
-    private func removeSelectedAnswer(_ selectedAnswer: Int8) {
-        guard currentQuestionIndex < selectedAnswers.count else {
-            print("Error: currentQuestionIndex is out of bounds of selectedAnswers array.")
-            return
-        }
-        if let index = selectedAnswers[currentQuestionIndex].firstIndex(of: selectedAnswer) {
-            selectedAnswers[currentQuestionIndex].remove(at: index)
-        } else {
-            print("Error: Selected answer not found in selectedAnswers array.")
-        }
-    }
-
-    
     private func hidePreviousButton() {
         if currentQuestionIndex == 0 {
             previousButton.isHidden = true
         }
-    }
-    
-    func exitAction() {
-        Coordinator.closeAnotherScreen(from: self)
-    }
-    
-    func checkAnswer(selectedAnswer: [[Int8]], correctAnswer: [[Int8]]) {
-        guard selectedAnswer.count == correctAnswer.count else {
-            print("Error: The number of questions in selectedAnswer and correctAnswer arrays are different.")
-            return
-        }
-
-        for counter in 0..<selectedAnswer.count {
-            guard counter < selectedAnswer.count && counter < correctAnswer.count else {
-                print("Error: Index out of range in selectedAnswer or correctAnswer array.")
-                return
-            }
-
-            if arraysContainSameElements(selectedAnswer[counter], correctAnswer[counter]) {
-                correctAnswersAfterCheck += 1
-            }
-        }
-    }
-    
-    private func arraysContainSameElements(_ array1: [Int8], _ array2: [Int8]) -> Bool {
-        let sortedArray1 = array1.sorted()
-        let sortedArray2 = array2.sorted()
-        return sortedArray1 == sortedArray2
     }
 }
