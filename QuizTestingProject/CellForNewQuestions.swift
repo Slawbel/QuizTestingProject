@@ -13,7 +13,7 @@ class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        answerNum.backgroundColor = .red
+        //answerNum.backgroundColor = .red
         answerNum.tintColor = .black
         answerNum.layer.cornerRadius = 25
         answerNum.titleLabel?.textAlignment = .center

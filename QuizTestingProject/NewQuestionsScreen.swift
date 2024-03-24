@@ -138,19 +138,22 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CellForNewQuestions", for: indexPath) as! CellForNewQuestions
-
+        
+        let emeraldColour = SetColorByCode.hexStringToUIColor(hex: "#556B2F")
+        let maroonRedColour = SetColorByCode.hexStringToUIColor(hex: "#800000")
         cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         cell.layer.cornerRadius = 35
         cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
+        cell.answerNum.backgroundColor = maroonRedColour
         cell.answerTextView.text = "Enter option answer here"
         
         cell.answerNum.addAction(UIAction { _ in
             if let index = self.selectedAnswers.firstIndex(of: Int8(indexPath.row + 1)) {
                 self.selectedAnswers.remove(at: index)
-                cell.answerNum.backgroundColor = .red
+                cell.answerNum.backgroundColor = maroonRedColour
             } else {
                 self.selectedAnswers.append(Int8(indexPath.row + 1))
-                cell.answerNum.backgroundColor = .green
+                cell.answerNum.backgroundColor = emeraldColour
             }
         }, for: .touchUpInside)
 
@@ -162,7 +165,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
 
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width: CGFloat = 350 
+        let width: CGFloat = 350
         let height: CGFloat = 70
         return CGSize(width: width, height: height)
     }
@@ -195,57 +198,77 @@ extension NewQuestionsScreen {
         self.answers = []
         if let questionText = newQuestionTextView.text, !questionText.isEmpty {
             self.question = questionText
-        }
-        
-        for cell in collectionView.visibleCells {
-            if let cellForQuestion = cell as? CellForNewQuestions, let answer = cellForQuestion.answerTextView.text {
-                self.answers.append(answer)
-            }
-        }
-
-        let quizModel = QuizModel()
-        quizModel.question = self.question
-
-        print(answers)
-        if let firstAnswer = self.answers.first {
-            quizModel.answer1 = firstAnswer
-        }
-        if self.answers.count > 1 {
-            quizModel.answer2 = self.answers[1]
-        }
-        if self.answers.count > 2 {
-            quizModel.answer3 = self.answers[2]
-        }
-        if self.answers.count > 3 {
-            quizModel.answer4 = self.answers[3]
-        }
-        
-        if !selectedAnswers.isEmpty {
-            for (index, element) in selectedAnswers.enumerated() {
-                switch index {
-                case 0:
-                    quizModel.corAnswer1 = element
-                case 1:
-                    quizModel.CorAnswer2 = element
-                case 2:
-                    quizModel.CorAnswer3 = element
-                default:
-                    break
+            
+            for cell in collectionView.visibleCells {
+                if let cellForQuestion = cell as? CellForNewQuestions, let answer = cellForQuestion.answerTextView.text {
+                    self.answers.append(answer)
                 }
             }
-        }
-        print(quizModel)
-
-        do {
-            let realm = try Realm()
-            try realm.write {
-                realm.add(quizModel)
-                print("Quiz model added to Realm")
+            
+            if self.checkOfEmptyElements() {
+                print("checkpoint1")
+                showAlert()
+                return
             }
-        } catch {
-            print("Error saving quizModel: \(error)")
+
+            let quizModel = QuizModel()
+            quizModel.question = self.question
+
+            if let firstAnswer = self.answers.first {
+                quizModel.answer1 = firstAnswer
+            }
+            if self.answers.count > 1 {
+                quizModel.answer2 = self.answers[1]
+            }
+            if self.answers.count > 2 {
+                quizModel.answer3 = self.answers[2]
+            }
+            if self.answers.count > 3 {
+                quizModel.answer4 = self.answers[3]
+            }
+            
+            if !selectedAnswers.isEmpty {
+                for (index, element) in selectedAnswers.enumerated() {
+                    switch index {
+                    case 0:
+                        quizModel.corAnswer1 = element
+                    case 1:
+                        quizModel.CorAnswer2 = element
+                    case 2:
+                        quizModel.CorAnswer3 = element
+                    default:
+                        break
+                    }
+                }
+            }
+            print(quizModel)
+
+            do {
+                let realm = try Realm()
+                try realm.write {
+                    realm.add(quizModel)
+                    print("Quiz model added to Realm")
+                    Coordinator.closeAnotherScreen(from: self)
+                }
+            } catch {
+                print("Error saving quizModel: \(error)")
+            }
         }
     }
-
+    
+    private func checkOfEmptyElements() -> Bool {
+        print(question)
+        print(answers)
+        print(selectedAnswers)
+        return question.isEmpty || answers.count < 4 || answers.contains("") || answers.contains("Enter option answer here") || selectedAnswers.isEmpty
+    }
+    
+    func showAlert() {
+        let alertController = UIAlertController(title: "Incomplete Information", message: "Please fill in all fields to save the data", preferredStyle: .alert)
+        let exitAction = UIAlertAction(title: "OK", style: .default) { _ in
+            print("User tapped OK")
+        }
+        alertController.addAction(exitAction)
+        present(alertController, animated: true, completion: nil)
+    }
 }
-

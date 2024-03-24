@@ -57,7 +57,8 @@ class WelcomeScreen: UIViewController {
         deleteQuestionButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
         deleteQuestionButton.setTitleColor(.white, for: .normal)
         deleteQuestionButton.addAction(UIAction {_ in
-           
+            let deleteQuestionsScreen = DeleteQuestionScreen()
+            Coordinator.openAnotherScreen(from: self, to: deleteQuestionsScreen)
         }, for: .primaryActionTriggered)
         deleteQuestionButton.setTitle("Delete question", for: .normal)
         deleteQuestionButton.titleLabel?.font = .boldSystemFont(ofSize: 22)

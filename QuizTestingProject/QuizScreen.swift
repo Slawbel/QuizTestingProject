@@ -100,6 +100,12 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         collectionView.backgroundColor = .white
         collectionView.backgroundColor = .clear
         
+        let swipeRightGesture = UISwipeGestureRecognizer(target: self, action: #selector(doSwipeRight(_:)))
+        swipeRightGesture.direction = .right
+        
+        let swipeLeftGesture = UISwipeGestureRecognizer(target: self, action: #selector(doSwipeLeft(_:)))
+        swipeLeftGesture.direction = .left
+        
         collectionView.register(Cell.self, forCellWithReuseIdentifier: "Cell")
         
         // API or Realm - what data will be donwloaded depeneds on sourceSelector
@@ -118,6 +124,8 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         view.addSubview(collectionView)
         view.addSubview(previousButton)
         view.addSubview(nextButton)
+        view.addGestureRecognizer(swipeRightGesture)
+        view.addGestureRecognizer(swipeLeftGesture)
         
         backButton.snp.makeConstraints { make in
             make.top.equalTo(view).inset(60)
@@ -178,6 +186,8 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         cell.layer.cornerRadius = 35
                 
         cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
+        
+
             
         if currentQuestionIndex < answers.count {
             let currentAnswers = answers[currentQuestionIndex]
@@ -190,7 +200,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
             if !selectedAnswers.isEmpty && currentQuestionIndex < selectedAnswers.count {
                 let selectedIndices = selectedAnswers[currentQuestionIndex]
                 if selectedIndices.contains(Int8(indexPath.row + 1)) {
-                    cell.answerNum.backgroundColor = .gray
+                    cell.answerNum.backgroundColor = .darkGray
                 }
             }
         }
@@ -216,7 +226,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
                 } else {
                     // Answer not selected, so add it
                     self.addSelectedAnswers(selectedAnswer)
-                    cell.answerNum.backgroundColor = .gray
+                    cell.answerNum.backgroundColor = .darkGray
                     print("What answer was selected: \(selectedAnswers[currentQuestionIndex])")
                 }
             }
@@ -240,33 +250,6 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         
         present(alertController, animated: true, completion: nil)
     }
-    
-    private func retrieveData() {
-        do {
-            let realm = try Realm()
-            let quizModels = realm.objects(QuizModel.self)
-            
-            self.question = quizModels.map { $0.question }
-            self.answers = quizModels.map { [$0.answer1, $0.answer2, $0.answer3, $0.answer4] }
-            
-            self.correctAnswer = quizModels.map { model in
-                var answers: [Int8] = []
-                answers.append(model.corAnswer1)
-                if let corAnswer2 = model.CorAnswer2 {
-                    answers.append(corAnswer2)
-                }
-                if let corAnswer3 = model.CorAnswer3 {
-                    answers.append(corAnswer3)
-                }
-                return answers
-            }
-            
-            createEmptySelectedAnswers()
-            
-        } catch {
-            print("Error retrieving data: \(error)")
-        }
-    }
 
     func setDataToScreen() {
         if currentQuestionIndex < question.count {
@@ -285,6 +268,13 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
     
     private func createEmptySelectedAnswers() {
         self.selectedAnswers = Array(repeating: [], count: question.count)
+    }
+    
+    private func shuffleData() {
+        let combined = zip(zip(question, answers), correctAnswer).shuffled()
+        question = combined.map { $0.0.0 }
+        answers = combined.map { $0.0.1 }
+        correctAnswer = combined.map { $0.1 }
     }
 }
 
@@ -330,6 +320,7 @@ extension QuizScreen {
                 print("-----")
             }
         }
+        shuffleData()
         createEmptySelectedAnswers()
         DispatchQueue.main.async {
             self.setDataToScreen()
@@ -337,6 +328,36 @@ extension QuizScreen {
         }
     }
 }
+
+// MARK: - Realm (retrieving of data from database)
+extension QuizScreen {
+    private func retrieveData() {
+        do {
+            let realm = try Realm()
+            let quizModels = realm.objects(QuizModel.self)
+            
+            self.question = quizModels.map { $0.question }
+            self.answers = quizModels.map { [$0.answer1, $0.answer2, $0.answer3, $0.answer4] }
+            
+            self.correctAnswer = quizModels.map { model in
+                var answers: [Int8] = []
+                answers.append(model.corAnswer1)
+                if let corAnswer2 = model.CorAnswer2 {
+                    answers.append(corAnswer2)
+                }
+                if let corAnswer3 = model.CorAnswer3 {
+                    answers.append(corAnswer3)
+                }
+                return answers
+            }
+            shuffleData()
+            createEmptySelectedAnswers()
+        } catch {
+            print("Error retrieving data: \(error)")
+        }
+    }
+}
+
 
 // MARK: - check of answer
 extension QuizScreen {
@@ -417,6 +438,18 @@ extension QuizScreen {
         }
         if currentQuestionIndex == question.count - 1 {
             nextButton.isHidden = true
+        }
+    }
+    
+    @objc func doSwipeRight(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.state == .ended {
+            previousButtonTapped()
+        }
+    }
+    
+    @objc func doSwipeLeft(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.state == .ended {
+            nextButtonTapped()
         }
     }
     

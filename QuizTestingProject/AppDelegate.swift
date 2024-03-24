@@ -18,18 +18,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Realm.Configuration.defaultConfiguration = config
 
         do {
-            let realm = try Realm()
+            _ = try Realm()
         } catch {
             print("Failed to open Realm: \(error)")
         }
 
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = UINavigationController(rootViewController: WelcomeScreen())
-
-        // Enable IQKeyboardManager
+        window?.makeKeyAndVisible()
+        
         IQKeyboardManager.shared.enable = true
 
-        window?.makeKeyAndVisible()
 
         return true
     }

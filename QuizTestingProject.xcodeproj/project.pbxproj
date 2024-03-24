@@ -19,10 +19,12 @@
 		A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */; };
 		A2EA51CF2BA3C538006133AD /* CellForNewQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51CE2BA3C538006133AD /* CellForNewQuestions.swift */; };
 		A2EA51EE2BA92FAB006133AD /* QuizModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51ED2BA92FAB006133AD /* QuizModel.swift */; };
-		A2EA51F52BAE7408006133AD /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51F42BAE7408006133AD /* Realm */; };
-		A2EA51F72BAE7408006133AD /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51F62BAE7408006133AD /* RealmSwift */; };
 		A2EA51FA2BAE7410006133AD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51F92BAE7410006133AD /* SnapKit */; };
 		A2EA51FD2BAE741E006133AD /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA51FC2BAE741E006133AD /* IQKeyboardManagerSwift */; };
+		A2EA51FF2BAF7F27006133AD /* DeleteQuestionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA51FE2BAF7F27006133AD /* DeleteQuestionScreen.swift */; };
+		A2EA52012BAF8C57006133AD /* CellForDeleteQuestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2EA52002BAF8C57006133AD /* CellForDeleteQuestions.swift */; };
+		A2EA52042BB005E6006133AD /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA52032BB005E6006133AD /* Realm */; };
+		A2EA52062BB005E6006133AD /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = A2EA52052BB005E6006133AD /* RealmSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewQuestionsScreen.swift; sourceTree = "<group>"; };
 		A2EA51CE2BA3C538006133AD /* CellForNewQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForNewQuestions.swift; sourceTree = "<group>"; };
 		A2EA51ED2BA92FAB006133AD /* QuizModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizModel.swift; sourceTree = "<group>"; };
+		A2EA51FE2BAF7F27006133AD /* DeleteQuestionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteQuestionScreen.swift; sourceTree = "<group>"; };
+		A2EA52002BAF8C57006133AD /* CellForDeleteQuestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForDeleteQuestions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,10 +51,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2EA52062BB005E6006133AD /* RealmSwift in Frameworks */,
+				A2EA52042BB005E6006133AD /* Realm in Frameworks */,
 				A2EA51FA2BAE7410006133AD /* SnapKit in Frameworks */,
 				A2EA51FD2BAE741E006133AD /* IQKeyboardManagerSwift in Frameworks */,
-				A2EA51F72BAE7408006133AD /* RealmSwift in Frameworks */,
-				A2EA51F52BAE7408006133AD /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -97,6 +101,8 @@
 				A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */,
 				A2EA51B52BA23C4C006133AD /* QuizScreen.swift */,
 				A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */,
+				A2EA51FE2BAF7F27006133AD /* DeleteQuestionScreen.swift */,
+				A2EA52002BAF8C57006133AD /* CellForDeleteQuestions.swift */,
 			);
 			name = "Screens and cells";
 			sourceTree = "<group>";
@@ -118,10 +124,10 @@
 			);
 			name = QuizTestingProject;
 			packageProductDependencies = (
-				A2EA51F42BAE7408006133AD /* Realm */,
-				A2EA51F62BAE7408006133AD /* RealmSwift */,
 				A2EA51F92BAE7410006133AD /* SnapKit */,
 				A2EA51FC2BAE741E006133AD /* IQKeyboardManagerSwift */,
+				A2EA52032BB005E6006133AD /* Realm */,
+				A2EA52052BB005E6006133AD /* RealmSwift */,
 			);
 			productName = QuizTestingProject;
 			productReference = A2EA51942BA1FF13006133AD /* QuizTestingProject.app */;
@@ -152,9 +158,9 @@
 			);
 			mainGroup = A2EA518B2BA1FF12006133AD;
 			packageReferences = (
-				A2EA51F32BAE7408006133AD /* XCRemoteSwiftPackageReference "realm-swift" */,
 				A2EA51F82BAE7410006133AD /* XCRemoteSwiftPackageReference "SnapKit" */,
 				A2EA51FB2BAE741E006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
+				A2EA52022BB005E6006133AD /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = A2EA51952BA1FF13006133AD /* Products */;
 			projectDirPath = "";
@@ -182,6 +188,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2EA52012BAF8C57006133AD /* CellForDeleteQuestions.swift in Sources */,
 				A2EA51B22BA20F42006133AD /* SetColorByCode.swift in Sources */,
 				A2EA519C2BA1FF13006133AD /* WelcomeScreen.swift in Sources */,
 				A2EA51B62BA23C4C006133AD /* QuizScreen.swift in Sources */,
@@ -189,6 +196,7 @@
 				A2EA51EE2BA92FAB006133AD /* QuizModel.swift in Sources */,
 				A2EA51B42BA21121006133AD /* Coordinator.swift in Sources */,
 				A2EA51C32BA346A7006133AD /* Cell.swift in Sources */,
+				A2EA51FF2BAF7F27006133AD /* DeleteQuestionScreen.swift in Sources */,
 				A2EA51C72BA364D2006133AD /* PaddingLabel.swift in Sources */,
 				A2EA51982BA1FF13006133AD /* AppDelegate.swift in Sources */,
 				A2EA51C92BA366EB006133AD /* NewQuestionsScreen.swift in Sources */,
@@ -416,14 +424,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A2EA51F32BAE7408006133AD /* XCRemoteSwiftPackageReference "realm-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
 		A2EA51F82BAE7410006133AD /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -440,19 +440,17 @@
 				minimumVersion = 7.0.2;
 			};
 		};
+		A2EA52022BB005E6006133AD /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A2EA51F42BAE7408006133AD /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A2EA51F32BAE7408006133AD /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		A2EA51F62BAE7408006133AD /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A2EA51F32BAE7408006133AD /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
-		};
 		A2EA51F92BAE7410006133AD /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = A2EA51F82BAE7410006133AD /* XCRemoteSwiftPackageReference "SnapKit" */;
@@ -462,6 +460,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = A2EA51FB2BAE741E006133AD /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
 			productName = IQKeyboardManagerSwift;
+		};
+		A2EA52032BB005E6006133AD /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2EA52022BB005E6006133AD /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		A2EA52052BB005E6006133AD /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A2EA52022BB005E6006133AD /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
