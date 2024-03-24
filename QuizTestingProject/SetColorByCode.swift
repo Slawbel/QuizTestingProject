@@ -1,7 +1,8 @@
 import UIKit
 
-// this structure was needed for defining and setting collor due to code RGB
+
 struct SetColorByCode {
+    // this method is needed for defining and setting colour due to code RGB
     static func hexStringToUIColor(hex: String) -> UIColor {
         var cString:String = hex.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
 
@@ -24,6 +25,7 @@ struct SetColorByCode {
         )
     }
     
+    // this function makes gradient
     static func applyGradientBackground(to view: UIView, colorsHex: [String]) {
         let gradientLayer = CAGradientLayer()
         gradientLayer.startPoint = CGPoint(x: 1, y: 0)

@@ -3,10 +3,8 @@ import SnapKit
 import RealmSwift
 
 class DeleteQuestionScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
     private let tableView = UITableView()
-    
-    var selectedIndexPath: IndexPath?
+    private var selectedIndexPath: IndexPath?
     private var question: [String] = []
     
     override func viewDidLoad() {
@@ -39,7 +37,6 @@ class DeleteQuestionScreen: UIViewController, UITableViewDelegate, UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "CellForDeleteQuestions", for: indexPath) as? CellForDeleteQuestions
         
         cell?.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-        cell?.layer.cornerRadius = 40
         
         cell?.questionLabel.text = question[indexPath.row]
         
@@ -60,25 +57,6 @@ class DeleteQuestionScreen: UIViewController, UITableViewDelegate, UITableViewDa
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 90
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCell = tableView.cellForRow(at: indexPath)
-        selectedCell?.layer.cornerRadius = 40
-        selectedCell?.layer.masksToBounds = true
-        
-        if selectedIndexPath == indexPath {
-            tableView.deselectRow(at: indexPath, animated: true)
-            selectedIndexPath = nil
-        } else {
-            selectedIndexPath = indexPath
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        let deselectedCell = tableView.cellForRow(at: indexPath)
-        deselectedCell?.layer.cornerRadius = 40
-        deselectedCell?.layer.masksToBounds = true
     }
     
     func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
@@ -105,7 +83,6 @@ class DeleteQuestionScreen: UIViewController, UITableViewDelegate, UITableViewDa
             }
         }
     }
-
     
     @objc func doSwipeRight(_ gesture: UISwipeGestureRecognizer) {
         if gesture.state == .ended {
@@ -117,7 +94,7 @@ class DeleteQuestionScreen: UIViewController, UITableViewDelegate, UITableViewDa
         tableView.beginUpdates()
         tableView.deleteRows(at: [indexPath], with: .left)
         tableView.endUpdates()
-            
+        
         selectedIndexPath = nil
     }
     

@@ -1,10 +1,7 @@
 import UIKit
 import SnapKit
 
-
-
 class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
-    
     let answerNum = UIButton()
     let answerTextView = UITextView()
     
@@ -13,12 +10,10 @@ class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        //answerNum.backgroundColor = .red
         answerNum.tintColor = .black
         answerNum.layer.cornerRadius = 25
         answerNum.titleLabel?.textAlignment = .center
         answerNum.setTitleColor(.black, for: .normal)
-        
         
         answerTextView.keyboardAppearance = .dark
         answerTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
@@ -46,7 +41,6 @@ class CellForNewQuestions: UICollectionViewCell, UITextViewDelegate {
             make.leading.equalToSuperview().inset(15)
         }
     }
-    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

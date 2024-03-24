@@ -3,7 +3,6 @@ import SnapKit
 import RealmSwift
 
 class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-
     private let counterLabel = UILabel()
     private let questionLabel = PaddingLabel()
     private var collectionView: UICollectionView!
@@ -85,7 +84,7 @@ class QuizScreen: UIViewController, UICollectionViewDataSource, UICollectionView
         questionLabel.layer.cornerRadius = 50
         questionLabel.clipsToBounds = true
         questionLabel.edgeInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
-        questionLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        questionLabel.font = UIFont.boldSystemFont(ofSize: 25)
 
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical

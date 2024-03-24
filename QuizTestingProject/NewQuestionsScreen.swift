@@ -7,7 +7,6 @@ protocol CellTextDelegate: AnyObject {
 }
 
 class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UITextViewDelegate, CellTextDelegate {
-    private let counterLabel = UILabel()
     private let questionLabel = UILabel()
     private let newQuestionTextView = UITextView()
     private var collectionView: UICollectionView!
@@ -40,12 +39,6 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
             self.saveData()
         }, for: .touchUpInside)
         
-        counterLabel.alpha = 0.3
-        counterLabel.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
-        counterLabel.textColor = .white
-        counterLabel.layer.cornerRadius = 30
-        counterLabel.clipsToBounds = true
-        
         questionLabel.numberOfLines = 0
         questionLabel.textAlignment = .center
         questionLabel.textColor = .white
@@ -58,7 +51,7 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         newQuestionTextView.textAlignment = .center
         newQuestionTextView.backgroundColor = .clear
         newQuestionTextView.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        newQuestionTextView.font = UIFont.systemFont(ofSize: 16)
+        newQuestionTextView.font = UIFont.systemFont(ofSize: 25)
         newQuestionTextView.layer.cornerRadius = 10
         newQuestionTextView.layer.borderWidth = 0
         newQuestionTextView.text = "Enter your question here"
@@ -83,7 +76,6 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
         
         view.addSubview(backButton)
         view.addSubview(saveButton)
-        view.addSubview(counterLabel)
         view.addSubview(questionLabel)
         view.addSubview(newQuestionTextView)
         view.addSubview(collectionView)
@@ -103,17 +95,10 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
             make.height.equalTo(40)
         }
         
-        counterLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(130)
-            make.height.equalTo(60)
-            make.width.equalTo(120)
-        }
-        
         questionLabel.snp.makeConstraints { make in
             make.centerX.equalTo(view)
-            make.top.equalTo(view).inset(210)
-            make.height.equalTo(250)
+            make.top.equalTo(view).inset(130)
+            make.height.equalTo(330)
             make.width.equalTo(340)
         }
         
@@ -139,8 +124,10 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CellForNewQuestions", for: indexPath) as! CellForNewQuestions
         
+        // colours for answerNum button background
         let emeraldColour = SetColorByCode.hexStringToUIColor(hex: "#556B2F")
         let maroonRedColour = SetColorByCode.hexStringToUIColor(hex: "#800000")
+        
         cell.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         cell.layer.cornerRadius = 35
         cell.answerNum.setTitle("\(indexPath.row + 1).", for: .normal)
@@ -157,12 +144,10 @@ class NewQuestionsScreen: UIViewController, UICollectionViewDataSource, UICollec
             }
         }, for: .touchUpInside)
 
-
         cell.delegate = self
         
         return cell
     }
-
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width: CGFloat = 350
@@ -264,7 +249,7 @@ extension NewQuestionsScreen {
     }
     
     func showAlert() {
-        let alertController = UIAlertController(title: "Incomplete Information", message: "Please fill in all fields to save the data", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Incomplete Information", message: "Please, fill in all fields to save the data", preferredStyle: .alert)
         let exitAction = UIAlertAction(title: "OK", style: .default) { _ in
             print("User tapped OK")
         }

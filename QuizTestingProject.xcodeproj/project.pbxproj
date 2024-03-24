@@ -96,11 +96,11 @@
 		A2EA51F22BAE2D80006133AD /* Screens and cells */ = {
 			isa = PBXGroup;
 			children = (
-				A2EA51C22BA346A7006133AD /* Cell.swift */,
-				A2EA51CE2BA3C538006133AD /* CellForNewQuestions.swift */,
-				A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */,
-				A2EA51B52BA23C4C006133AD /* QuizScreen.swift */,
 				A2EA519B2BA1FF13006133AD /* WelcomeScreen.swift */,
+				A2EA51B52BA23C4C006133AD /* QuizScreen.swift */,
+				A2EA51C22BA346A7006133AD /* Cell.swift */,
+				A2EA51C82BA366EB006133AD /* NewQuestionsScreen.swift */,
+				A2EA51CE2BA3C538006133AD /* CellForNewQuestions.swift */,
 				A2EA51FE2BAF7F27006133AD /* DeleteQuestionScreen.swift */,
 				A2EA52002BAF8C57006133AD /* CellForDeleteQuestions.swift */,
 			);

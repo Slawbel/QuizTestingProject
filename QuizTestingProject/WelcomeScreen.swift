@@ -57,8 +57,12 @@ class WelcomeScreen: UIViewController {
         deleteQuestionButton.backgroundColor = SetColorByCode.hexStringToUIColor(hex:"000000")
         deleteQuestionButton.setTitleColor(.white, for: .normal)
         deleteQuestionButton.addAction(UIAction {_ in
-            let deleteQuestionsScreen = DeleteQuestionScreen()
-            Coordinator.openAnotherScreen(from: self, to: deleteQuestionsScreen)
+            if self.isRealmEmpty() {
+                self.showAlert()
+            } else {
+                let deleteQuestionsScreen = DeleteQuestionScreen()
+                Coordinator.openAnotherScreen(from: self, to: deleteQuestionsScreen)
+            }
         }, for: .primaryActionTriggered)
         deleteQuestionButton.setTitle("Delete question", for: .normal)
         deleteQuestionButton.titleLabel?.font = .boldSystemFont(ofSize: 22)
@@ -108,7 +112,7 @@ class WelcomeScreen: UIViewController {
     }
     
     func showAlert() {
-        let alertController = UIAlertController(title: "No questions added", message: "Add them below", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "No questions added", message: "Please, add them", preferredStyle: .alert)
         let exitAction = UIAlertAction(title: "Exit", style: .default) { _ in
             print("No questions in Realms database")
         }
